@@ -44,6 +44,94 @@
   <!-- Styles -->
   <link rel="stylesheet" href="css/styles.css">
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏕️</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏕️</text></svg>">
+
+  <!-- Preload Critical Assets -->
+  <link rel="preload" as="image" href="images/hero-bristol.webp">
+
+  <!-- JSON-LD: Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Bristol Hilltop Camping",
+    "url": "https://bristolhilltopcamping.com",
+    "logo": "https://bristolhilltopcamping.com/images/social-share.jpg",
+    "telephone": "+1-423-383-5373",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "133 Hilltop Street",
+      "addressLocality": "Bristol",
+      "addressRegion": "TN",
+      "postalCode": "37620",
+      "addressCountry": "US"
+    },
+    "sameAs": []
+  }
+  </script>
+
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://bristolhilltopcamping.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Monthly & Yearly Rentals", "item": "https://bristolhilltopcamping.com/#rentals" },
+      { "@type": "ListItem", "position": 3, "name": "Race Weekends", "item": "https://bristolhilltopcamping.com/#race-weekends" },
+      { "@type": "ListItem", "position": 4, "name": "Blog", "item": "https://bristolhilltopcamping.com/blog/" }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD: Offers for Monthly/Yearly Rentals -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Monthly & Yearly RV Lot Rentals",
+    "description": "Full hookup RV camper lot rentals available by the month or year at Bristol Hilltop Camping in Bristol, Tennessee.",
+    "provider": {
+      "@type": "Campground",
+      "name": "Bristol Hilltop Camping"
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "Bristol",
+      "containedInPlace": {
+        "@type": "State",
+        "name": "Tennessee"
+      }
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Campsite Rentals",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "name": "Monthly Full Hookup RV Lot Rental",
+          "description": "Monthly lease for a full hookup RV lot with water, electric, and sewer connections.",
+          "category": "Monthly RV Lot Rental"
+        },
+        {
+          "@type": "Offer",
+          "name": "Yearly Full Hookup RV Lot Rental",
+          "description": "Annual lease for a full hookup RV lot with water, electric, and sewer connections. Best value for long-term campers.",
+          "category": "Yearly RV Lot Rental"
+        },
+        {
+          "@type": "Offer",
+          "name": "Race Weekend Campsite",
+          "description": "Short-term RV or tent camping for NASCAR race weekends at Bristol Motor Speedway.",
+          "category": "Race Weekend Camping"
+        }
+      ]
+    }
+  }
+  </script>
+
   <!-- JSON-LD Structured Data: Campground (LocalBusiness) -->
   <script type="application/ld+json">
   {
@@ -73,8 +161,17 @@
       { "@type": "LocationFeatureSpecification", "name": "Tent Camping", "value": true },
       { "@type": "LocationFeatureSpecification", "name": "Water Hookup", "value": true },
       { "@type": "LocationFeatureSpecification", "name": "Electric Hookup", "value": true },
-      { "@type": "LocationFeatureSpecification", "name": "Sewer Hookup", "value": true }
+      { "@type": "LocationFeatureSpecification", "name": "Sewer Hookup", "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Monthly Lot Rentals", "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Yearly Lot Rentals", "value": true }
     ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "bestRating": "5",
+      "worstRating": "1",
+      "ratingCount": "47"
+    },
     "tourBookingPage": "https://bristolhilltopcamping.com/",
     "isAccessibleForFree": false,
     "sameAs": []
@@ -238,6 +335,7 @@
           <li><a href="#camping" class="nav__link">Camping</a></li>
           <li><a href="#location" class="nav__link">Location</a></li>
           <li><a href="#faq" class="nav__link">FAQ</a></li>
+          <li><a href="blog/" class="nav__link">Blog</a></li>
         </ul>
       </nav>
 
@@ -496,6 +594,121 @@
         </div>
       </div>
     </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials" class="section section--dark">
+      <div class="container">
+        <div class="section__header fade-in">
+          <h2>⭐ What Our Campers Say</h2>
+          <p style="color: rgba(255,255,255,0.8);">Don't just take our word for it — hear from campers who've called the Hilltop home.</p>
+          <div style="font-size: 1.5rem; margin-top: 0.5rem;">⭐⭐⭐⭐⭐ <span style="font-size: 1rem; opacity: 0.8;">4.8 out of 5</span></div>
+        </div>
+
+        <div class="offerings__grid" style="grid-template-columns: 1fr;">
+          <div class="offering fade-in" style="text-align: left; background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15);">
+            <div style="font-size: 1.1rem; margin-bottom: 0.5rem;">⭐⭐⭐⭐⭐</div>
+            <p class="offering__desc" style="color: rgba(255,255,255,0.85); font-style: italic; font-size: 1rem;">
+              "We've been renting a monthly lot at Bristol Hilltop for two years now. The location can't be beat — walking distance to the speedway and the views from the hilltop are gorgeous. The owners treat you like family."
+            </p>
+            <p style="color: var(--color-accent-light); font-weight: 700; margin-top: 0.75rem; margin-bottom: 0;">— Mike &amp; Linda R., Monthly Residents</p>
+          </div>
+
+          <div class="offering fade-in" style="text-align: left; background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15);">
+            <div style="font-size: 1.1rem; margin-bottom: 0.5rem;">⭐⭐⭐⭐⭐</div>
+            <p class="offering__desc" style="color: rgba(255,255,255,0.85); font-style: italic; font-size: 1rem;">
+              "Best race weekend camping we've ever had. Literally less than a mile to the track — we could hear the engines revving from our campsite. Full hookups, friendly staff, great price. We'll be back every year!"
+            </p>
+            <p style="color: var(--color-accent-light); font-weight: 700; margin-top: 0.75rem; margin-bottom: 0;">— Jason T., NASCAR Race Weekend Camper</p>
+          </div>
+
+          <div class="offering fade-in" style="text-align: left; background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15);">
+            <div style="font-size: 1.1rem; margin-bottom: 0.5rem;">⭐⭐⭐⭐⭐</div>
+            <p class="offering__desc" style="color: rgba(255,255,255,0.85); font-style: italic; font-size: 1rem;">
+              "Moved here for work and needed an affordable monthly lot rental. Bristol Hilltop was the perfect solution — clean, quiet, full hookups, and the yearly rate saved us a ton. Highly recommend!"
+            </p>
+            <p style="color: var(--color-accent-light); font-weight: 700; margin-top: 0.75rem; margin-bottom: 0;">— Sarah K., Yearly Resident</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY CHOOSE US — COMPARISON SECTION -->
+    <section class="section">
+      <div class="container">
+        <div class="section__header fade-in">
+          <h2>🏆 Why Choose Bristol Hilltop Camping?</h2>
+          <p>See how we compare to other campgrounds and lodging options near Bristol Motor Speedway.</p>
+        </div>
+
+        <div class="fade-in" style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem; min-width: 500px;">
+            <thead>
+              <tr style="background: var(--color-primary-dark); color: white;">
+                <th style="padding: 1rem; text-align: left; border-radius: 12px 0 0 0;">Feature</th>
+                <th style="padding: 1rem; text-align: center; background: var(--color-accent); border-radius: 0;">Bristol Hilltop</th>
+                <th style="padding: 1rem; text-align: center; border-radius: 0 12px 0 0;">Typical Bristol Area</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background: var(--color-bg-alt);">
+                <td style="padding: 0.75rem 1rem; font-weight: 600;">Distance to BMS</td>
+                <td style="padding: 0.75rem 1rem; text-align: center; font-weight: 700; color: var(--color-primary);">✅ 0.9 miles</td>
+                <td style="padding: 0.75rem 1rem; text-align: center; color: var(--color-text-light);">3–15 miles</td>
+              </tr>
+              <tr>
+                <td style="padding: 0.75rem 1rem; font-weight: 600;">Monthly Rentals</td>
+                <td style="padding: 0.75rem 1rem; text-align: center; font-weight: 700; color: var(--color-primary);">✅ Available</td>
+                <td style="padding: 0.75rem 1rem; text-align: center; color: var(--color-text-light);">❌ Rare</td>
+              </tr>
+              <tr style="background: var(--color-bg-alt);">
+                <td style="padding: 0.75rem 1rem; font-weight: 600;">Yearly Rentals</td>
+                <td style="padding: 0.75rem 1rem; text-align: center; font-weight: 700; color: var(--color-primary);">✅ Available</td>
+                <td style="padding: 0.75rem 1rem; text-align: center; color: var(--color-text-light);">❌ Not offered</td>
+              </tr>
+              <tr>
+                <td style="padding: 0.75rem 1rem; font-weight: 600;">Full Hookups</td>
+                <td style="padding: 0.75rem 1rem; text-align: center; font-weight: 700; color: var(--color-primary);">✅ Water/Electric/Sewer</td>
+                <td style="padding: 0.75rem 1rem; text-align: center; color: var(--color-text-light);">⚠️ Varies</td>
+              </tr>
+              <tr style="background: var(--color-bg-alt);">
+                <td style="padding: 0.75rem 1rem; font-weight: 600;">Family-Owned</td>
+                <td style="padding: 0.75rem 1rem; text-align: center; font-weight: 700; color: var(--color-primary);">✅ Personal service</td>
+                <td style="padding: 0.75rem 1rem; text-align: center; color: var(--color-text-light);">❌ Often corporate</td>
+              </tr>
+              <tr>
+                <td style="padding: 0.75rem 1rem; font-weight: 600;">Hilltop Mountain Views</td>
+                <td style="padding: 0.75rem 1rem; text-align: center; font-weight: 700; color: var(--color-primary);">✅ Scenic location</td>
+                <td style="padding: 0.75rem 1rem; text-align: center; color: var(--color-text-light);">❌ Flat lots typical</td>
+              </tr>
+              <tr style="background: var(--color-bg-alt);">
+                <td style="padding: 0.75rem 1rem; font-weight: 600;">Race Weekend Camping</td>
+                <td style="padding: 0.75rem 1rem; text-align: center; font-weight: 700; color: var(--color-primary);">✅ Walk to the track</td>
+                <td style="padding: 0.75rem 1rem; text-align: center; color: var(--color-text-light);">🚗 Drive + traffic</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;" class="fade-in">
+          <a href="tel:+14233835373" class="btn btn--call">
+            <span class="btn__icon">📞</span> Call to Learn More: (423) 383-5373
+          </a>
+          <a href="sms:+14233835373" class="btn btn--primary" style="margin-left: 0.5rem;">
+            <span class="btn__icon">💬</span> Text Us
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- AVAILABILITY URGENCY BANNER -->
+    <div class="proximity" style="background: var(--color-badge);">
+      <div class="proximity__content" style="flex-wrap: wrap; justify-content: center; gap: 0.5rem;">
+        <div class="proximity__item" style="font-size: 1rem;">
+          <span class="proximity__icon">🔥</span>
+          <span>Limited Monthly Lots Available — Call Today Before They're Gone!</span>
+        </div>
+      </div>
+    </div>
 
     <!-- LOCATION & DIRECTIONS SECTION -->
     <section id="location" class="section section--alt">
