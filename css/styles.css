@@ -1208,3 +1208,108 @@ p { margin-bottom: 1rem; }
     font-size: 3rem;
   }
 }
+
+/* ============================================
+   Mobile-First Fixes (max-width: 480px)
+   ============================================ */
+@media (max-width: 480px) {
+  /* Stack CTA buttons vertically on small phones */
+  .btn + .btn,
+  .btn + a.btn {
+    margin-left: 0 !important;
+    margin-top: 0.75rem;
+  }
+
+  /* Ensure buttons are full width on phones */
+  .event-cta .btn,
+  .section .btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Table cells: tighter padding on phones */
+  table th,
+  table td {
+    padding: 0.5rem 0.4rem !important;
+    font-size: 0.8rem !important;
+  }
+
+  /* Comparison table column widths */
+  table th:first-child,
+  table td:first-child {
+    width: 35%;
+  }
+
+  /* Hero section: tighter on phones */
+  .event-hero {
+    padding: 5rem 1rem 2rem;
+  }
+
+  .event-hero h1 {
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+
+  /* Stats grid: 2 columns on small phones */
+  .stats {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.75rem;
+  }
+
+  /* Proximity bar: stack items */
+  .proximity__content {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .proximity__item {
+    font-size: 0.8rem !important;
+  }
+
+  /* Section padding */
+  .section {
+    padding: 2.5rem 0;
+  }
+
+  /* FAQ question text */
+  .faq__question {
+    font-size: 0.95rem;
+    padding: 1rem 0.75rem;
+  }
+
+  /* Offerings grid: single column */
+  .offerings__grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Race card padding */
+  .race-card {
+    padding: 1rem;
+  }
+
+  /* Footer: single column */
+  .footer__grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem;
+  }
+}
+
+/* Ensure all images are responsive everywhere */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Ensure no horizontal overflow on body */
+html, body {
+  overflow-x: hidden;
+}
+
+/* Global tap target minimum size */
+a.btn,
+button,
+.faq__question,
+.mobile-cta__link {
+  min-height: 44px;
+}
