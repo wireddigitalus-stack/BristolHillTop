@@ -401,11 +401,21 @@ p { margin-bottom: 1rem; }
   flex-direction: column;
   gap: 0.75rem;
   align-items: center;
+  width: 100%;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero__ctas .btn {
+  width: 100%;
+  white-space: nowrap;
 }
 
 .hero__phone {
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   font-weight: 800;
+  letter-spacing: -0.01em;
 }
 
 /* --- Proximity Badge Section --- */
@@ -1020,6 +1030,11 @@ p { margin-bottom: 1rem; }
   .hero__ctas {
     flex-direction: row;
     justify-content: center;
+    max-width: 600px;
+  }
+
+  .hero__ctas .btn {
+    width: auto;
   }
 
   /* Proximity */
