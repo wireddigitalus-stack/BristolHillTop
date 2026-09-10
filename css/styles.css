@@ -1028,13 +1028,13 @@ p { margin-bottom: 1rem; }
   }
 
   .hero__ctas {
-    flex-direction: row;
-    justify-content: center;
-    max-width: 600px;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
   }
 
   .hero__ctas .btn {
-    width: auto;
+    width: 100%;
   }
 
   /* Proximity */
@@ -1106,6 +1106,16 @@ p { margin-bottom: 1rem; }
 
   .hero__title {
     font-size: 3.5rem;
+  }
+
+  .hero__ctas {
+    flex-direction: row;
+    justify-content: center;
+    max-width: 600px;
+  }
+
+  .hero__ctas .btn {
+    width: auto;
   }
 
   .hero__subtitle {
