@@ -400,6 +400,81 @@
       .pin-keypad { grid-template-columns: repeat(3, 70px); }
       .pin-key { width: 70px; height: 70px; font-size: 1.5rem; }
     }
+
+    /* Flashing badge on Leads tab */
+    .tab-badge {
+      display: none;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: 10px;
+      background: var(--red);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 800;
+      line-height: 20px;
+      text-align: center;
+      margin-left: 6px;
+      animation: badge-pulse 1.5s ease-in-out infinite;
+      vertical-align: middle;
+    }
+
+    .tab-badge.visible { display: inline-block; }
+
+    @keyframes badge-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.15); }
+    }
+
+    /* New lead alert banner */
+    .lead-alert {
+      position: fixed;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #30d158, #0a84ff);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 1rem;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      box-shadow: 0 8px 32px rgba(48,209,88,0.4);
+      transition: top 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-width: 90vw;
+      white-space: nowrap;
+    }
+
+    .lead-alert.show { top: 1.5rem; }
+
+    .lead-alert__icon {
+      font-size: 1.5rem;
+      animation: ring-bell 1s ease-in-out 3;
+    }
+
+    @keyframes ring-bell {
+      0%, 100% { transform: rotate(0deg); }
+      15% { transform: rotate(15deg); }
+      30% { transform: rotate(-12deg); }
+      45% { transform: rotate(10deg); }
+      60% { transform: rotate(-8deg); }
+      75% { transform: rotate(0deg); }
+    }
+
+    .lead-alert__close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      opacity: 0.7;
+      margin-left: 0.5rem;
+    }
+
+    .lead-alert__close:hover { opacity: 1; }
   </style>
 </head>
 <body>
@@ -434,6 +509,13 @@
     </div>
   </div>
 
+  <!-- NEW LEAD ALERT BANNER -->
+  <div class="lead-alert" id="lead-alert">
+    <span class="lead-alert__icon">🔔</span>
+    <span id="lead-alert-text">New Lead!</span>
+    <button class="lead-alert__close" onclick="dismissAlert()">✕</button>
+  </div>
+
   <!-- ============================================
        DASHBOARD
        ============================================ -->
@@ -450,7 +532,7 @@
     <div class="dash-tabs">
       <button class="dash-tab active" onclick="switchTab('overview')">Overview</button>
       <button class="dash-tab" onclick="switchTab('clicks')">Click Map</button>
-      <button class="dash-tab" onclick="switchTab('leads')">Leads</button>
+      <button class="dash-tab" onclick="switchTab('leads')" id="tab-leads">Leads <span class="tab-badge" id="leads-badge"></span></button>
       <button class="dash-tab" onclick="switchTab('sessions')">Sessions</button>
     </div>
 
@@ -669,6 +751,7 @@
       renderClickMap(d);
       renderLeads(leads);
       renderSessions(d);
+      initLeadCount();
     }
 
     function renderDailyChart(d) {
@@ -889,6 +972,93 @@
           '<span class="session-meta">' + s.device + ' · ' + s.referrer + '<br>' + timeStr + '</span>' +
         '</div>';
       }).join('');
+    }
+
+    // ============================================
+    // NEW LEAD ALERT SYSTEM
+    // ============================================
+    var lastKnownLeadCount = 0;
+    var alertTimeout = null;
+
+    function checkForNewLeads() {
+      var leads = getLeads();
+      var newCount = leads.filter(function(l) { return l.status === 'new'; }).length;
+
+      // Update badge
+      var badge = document.getElementById('leads-badge');
+      if (newCount > 0) {
+        badge.textContent = newCount;
+        badge.classList.add('visible');
+      } else {
+        badge.classList.remove('visible');
+      }
+
+      // Show alert if new leads appeared since last check
+      if (leads.length > lastKnownLeadCount && lastKnownLeadCount > 0) {
+        var newest = leads[0];
+        showLeadAlert(newest);
+        // Auto-refresh the leads panel
+        renderLeads(leads);
+        // Also refresh stats
+        var d = getData();
+        document.getElementById('s-leads').textContent = (d.totalLeads || 0).toLocaleString();
+      }
+
+      lastKnownLeadCount = leads.length;
+    }
+
+    function showLeadAlert(lead) {
+      var alertEl = document.getElementById('lead-alert');
+      var textEl = document.getElementById('lead-alert-text');
+      textEl.textContent = '🚨 New Lead: ' + lead.name + ' — ' + lead.interest;
+
+      alertEl.classList.add('show');
+
+      // Play notification sound (subtle beep)
+      try {
+        var ctx = new (window.AudioContext || window.webkitAudioContext)();
+        var osc = ctx.createOscillator();
+        var gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.value = 880;
+        osc.type = 'sine';
+        gain.gain.value = 0.15;
+        osc.start();
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+        osc.stop(ctx.currentTime + 0.5);
+        // Second beep
+        setTimeout(function() {
+          var osc2 = ctx.createOscillator();
+          var gain2 = ctx.createGain();
+          osc2.connect(gain2);
+          gain2.connect(ctx.destination);
+          osc2.frequency.value = 1100;
+          osc2.type = 'sine';
+          gain2.gain.value = 0.15;
+          osc2.start();
+          gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+          osc2.stop(ctx.currentTime + 0.5);
+        }, 200);
+      } catch(e) {}
+
+      // Auto-dismiss after 8 seconds
+      clearTimeout(alertTimeout);
+      alertTimeout = setTimeout(dismissAlert, 8000);
+    }
+
+    function dismissAlert() {
+      document.getElementById('lead-alert').classList.remove('show');
+      clearTimeout(alertTimeout);
+    }
+
+    // Poll for new leads every 3 seconds
+    setInterval(checkForNewLeads, 3000);
+
+    // Initialize lead count on load
+    function initLeadCount() {
+      lastKnownLeadCount = getLeads().length;
+      checkForNewLeads();
     }
   </script>
 </body>
