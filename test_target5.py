@@ -44,9 +44,9 @@ sec2 = """
             <h4>🍖 Pellet Smokers (Traeger, Green Mountain)</h4>
             <p><strong>Best For:</strong> Set-and-forget cooking while exploring the track.</p>
             <ul>
-              <li>Holds steady 225°F for 12 hours with hardwood smoke.</li>
+              <li>Holds 225°F for 12 hours with automated wood feed.</li>
               <li>Requires 110V power; full hookup RV sites make this effortless.</li>
-              <li>Keep pellets in sealed waterproof buckets.</li>
+              <li>Keep pellets in sealed buckets to avoid mountain moisture.</li>
             </ul>
           </div>
 
@@ -54,9 +54,9 @@ sec2 = """
             <h4>🪵 Charcoal Smokers (Weber, WSM)</h4>
             <p><strong>Best For:</strong> Deep smoke rings and authentic wood bark.</p>
             <ul>
-              <li>Unbeatable wood-fired flavor without electricity.</li>
-              <li>Requires damper management and ash clean-up.</li>
-              <li>Bring a metal bucket with lid for hot coals.</li>
+              <li>Unbeatable wood flavor with zero power needs.</li>
+              <li>Requires airflow damper tuning and ash cleanup.</li>
+              <li>Bring a lidded metal pail to cool spent embers safely.</li>
             </ul>
           </div>
 
@@ -64,8 +64,8 @@ sec2 = """
             <h4>🍳 Portable Propane Griddles (Blackstone 22")</h4>
             <p><strong>Best For:</strong> Fast breakfasts and quick pre-race meals.</p>
             <ul>
-              <li>Instant heat, zero ash; perfect for smashburgers and bacon.</li>
-              <li>Lacks wood smoke for low-and-slow cuts.</li>
+              <li>Instant heat with no ash; great for burgers and bacon.</li>
+              <li>Lacks wood smoke for low-and-slow barbecue cuts.</li>
               <li>Use a 20-lb propane tank adapter hose.</li>
             </ul>
           </div>
@@ -98,65 +98,40 @@ sec3 = """
         <!-- Recipe 1 -->
         <div class="recipe-card">
           <h3>1. Colosseum Pulled Pork Butt (Hickory Smoked Pork)</h3>
-          <div class="recipe-meta">
-            <span><strong>Prep:</strong> 15 Mins</span>
-            <span><strong>Smoke:</strong> 8–10 Hrs at 225°F</span>
-            <span><strong>Feeds:</strong> 12–15</span>
-          </div>
           <p>
-            Coat an 8-lb pork butt in yellow mustard and brown-sugar rub. Smoke over hickory at 225°F for 5 hours. Spritz with apple cider vinegar, wrap in heavy foil with butter and brown sugar, and cook at 250°F until probe-tender (203°F). Rest 2 hours in a cooler, then pull onto brioche buns with slaw.
+            Coat an 8-lb pork butt in mustard and brown-sugar rub. Smoke over hickory at 225°F for 5 hours. Spritz with cider vinegar, wrap in heavy foil with butter and brown sugar, and cook at 250°F until tender (203°F). Rest 2 hours in an insulated cooler before pulling onto brioche buns with slaw.
           </p>
         </div>
 
         <!-- Recipe 2 -->
         <div class="recipe-card">
           <h3>2. Thunder Valley Smoked St. Louis Ribs (3-2-1 Method)</h3>
-          <div class="recipe-meta">
-            <span><strong>Prep:</strong> 15 Mins</span>
-            <span><strong>Smoke:</strong> 6 Hrs at 225°F</span>
-            <span><strong>Feeds:</strong> 4–6</span>
-          </div>
           <p>
-            Season spare ribs with sweet pork rub. Smoke at 225°F with applewood for 3 hours. Wrap in foil with butter, brown sugar, and honey for 2 hours. Unwrap, brush with sweet barbecue sauce, and cook 1 final hour until the glaze bubbles into a glossy lacquer.
+            Season spare ribs with pork rub. Smoke at 225°F with applewood for 3 hours. Wrap in foil with butter, brown sugar, and honey for 2 hours. Unwrap, brush with sweet barbecue sauce, and cook 1 final hour until the glaze bubbles into a glossy lacquer. Slice and serve hot.
           </p>
         </div>
 
         <!-- Recipe 3 -->
         <div class="recipe-card">
           <h3>3. Overnight Brisket Sliders with Pickled Jalapeño Slaw</h3>
-          <div class="recipe-meta">
-            <span><strong>Prep:</strong> 20 Mins</span>
-            <span><strong>Smoke:</strong> 12–14 Hrs at 225°F</span>
-            <span><strong>Feeds:</strong> 16–20 Sliders</span>
-          </div>
           <p>
-            Season a trimmed brisket with coarse salt and black pepper. Smoke overnight at 225°F over oak or hickory. Wrap in butcher paper at 165°F and cook until probe-tender (202°F). Rest 2 hours in a cooler, slice thin, and serve on sweet rolls with slaw and pickled jalapeños.
+            Season a trimmed brisket with salt and coarse pepper. Smoke overnight at 225°F over oak or hickory. Wrap in butcher paper at 165°F and cook until probe-tender (202°F). Rest 2 hours in a cooler, slice thin, and serve on sweet rolls with slaw and pickled jalapeños.
           </p>
         </div>
 
         <!-- Recipe 4 -->
         <div class="recipe-card">
           <h3>4. High-Banked Smoked &amp; Crisped Wings (Alabama White &amp; Buffalo)</h3>
-          <div class="recipe-meta">
-            <span><strong>Prep:</strong> 10 Mins</span>
-            <span><strong>Cook:</strong> 1.5 Hrs at 250°F / 400°F</span>
-            <span><strong>Feeds:</strong> 6–8</span>
-          </div>
           <p>
-            Toss dried chicken wings with baking powder and rub. Smoke at 250°F for 45 minutes, then crisp at 400°F for 30 minutes until golden. Toss half in spicy Buffalo sauce and dunk the remainder in tangy Alabama white sauce (mayo, vinegar, pepper, horseradish).
+            Toss dried wings with baking powder and rub. Smoke at 250°F for 45 minutes, then crisp at 400°F for 30 minutes until golden. Toss half in spicy Buffalo sauce and dunk the remainder in creamy Alabama white sauce (mayo, cider vinegar, pepper, horseradish).
           </p>
         </div>
 
         <!-- Recipe 5 -->
         <div class="recipe-card">
           <h3>5. Skillet Campfire Sweet Jalapeño Cornbread</h3>
-          <div class="recipe-meta">
-            <span><strong>Prep:</strong> 10 Mins</span>
-            <span><strong>Bake:</strong> 30 Mins at 375°F</span>
-            <span><strong>Feeds:</strong> 8–10 Slices</span>
-          </div>
           <p>
-            Preheat a 10-inch cast iron skillet with bacon grease on your grill. Whisk 2 cups cornmeal mix, buttermilk, eggs, melted butter, honey, cheddar cheese, and diced jalapeño. Pour into the skillet and bake indirectly at 375°F for 30 minutes. Brush with honey butter before serving.
+            Preheat a 10-inch cast iron skillet with bacon grease on your grill. Whisk 2 cups cornmeal mix, buttermilk, eggs, melted butter, honey, cheddar cheese, and diced jalapeño. Pour into the skillet and bake indirectly at 375°F for 30 minutes. Brush with honey butter before slicing.
           </p>
         </div>
       </section>
@@ -176,8 +151,8 @@ sec4 = """
             <ul>
               <li><strong>Meat Cooler:</strong> Roto-molded cooler with block ice for raw meats.</li>
               <li><strong>Drink Cooler:</strong> Dedicated cooler for beers, soda, and water.</li>
-              <li><strong>Resting Cooler:</strong> Insulated cooler to hold barbecue warm.</li>
-              <li><strong>Foil &amp; Tongs:</strong> Heavy 18-inch foil and long tongs for hot grates.</li>
+              <li><strong>Resting Cooler:</strong> Insulated cooler to hold smoked barbecue warm.</li>
+              <li><strong>Foil &amp; Tongs:</strong> Heavy foil and long tongs for hot grates.</li>
             </ul>
           </div>
 
@@ -226,7 +201,7 @@ sec5 = """
           <div class="timeline-badge">Thursday</div>
           <div class="timeline-body">
             <h4>Arrival &amp; Setup</h4>
-            <p>Check in, level your camper, connect hookups, and roll out your awning. Grill burgers on the flat-top, then enjoy the Thursday night Truck Series race.</p>
+            <p>Level your camper, connect full hookups, roll out your awning, grill flat-top burgers, and watch the UNOH 200 Truck race.</p>
           </div>
         </div>
 
@@ -234,7 +209,7 @@ sec5 = """
           <div class="timeline-badge">Friday AM</div>
           <div class="timeline-body">
             <h4>Breakfast &amp; Meat Rubbing</h4>
-            <p>Cook bacon and eggs on the griddle. Trim briskets and pork butts, apply rubs, and keep meats chilled so seasonings cure deep before smoking.</p>
+            <p>Cook breakfast on the griddle, trim briskets and pork butts, apply rubs, and keep meats chilled so seasonings cure deep.</p>
           </div>
         </div>
 
@@ -242,7 +217,7 @@ sec5 = """
           <div class="timeline-badge">Friday PM</div>
           <div class="timeline-body">
             <h4>Wings &amp; Pit Lighting</h4>
-            <p>Smoke wings for happy hour and watch the Xfinity Series race. Before bed at 10:30 PM, light your smoker and put on pork or brisket for an overnight cook.</p>
+            <p>Smoke wings for happy hour, watch the Xfinity Series race, and light your smoker at 10:30 PM for an overnight cook.</p>
           </div>
         </div>
 
@@ -250,7 +225,7 @@ sec5 = """
           <div class="timeline-badge">Saturday 8 AM</div>
           <div class="timeline-body">
             <h4>Meat Wrap &amp; Rib Cook</h4>
-            <p>Wrap brisket or pork in butcher paper once the bark sets (~165°F). Put St. Louis ribs onto the smoker to begin their 3-2-1 cook.</p>
+            <p>Wrap brisket or pork in butcher paper once the bark sets (~165°F), then load St. Louis ribs onto the smoker for their 3-2-1 cook.</p>
           </div>
         </div>
 
@@ -258,7 +233,7 @@ sec5 = """
           <div class="timeline-badge">Saturday 2 PM</div>
           <div class="timeline-body">
             <h4>Cooler Rest &amp; Cornbread</h4>
-            <p>Place probe-tender meats into an insulated cooler to rest. Glaze ribs and bake skillet jalapeño cornbread on the grill.</p>
+            <p>Transfer tender meats into an insulated cooler to rest. Glaze ribs and bake skillet jalapeño cornbread on the grill.</p>
           </div>
         </div>
 
@@ -266,7 +241,7 @@ sec5 = """
           <div class="timeline-badge">Saturday 4 PM</div>
           <div class="timeline-body">
             <h4>Pre-Race Feast &amp; Walk</h4>
-            <p>Shred pork, slice brisket, and feast with friends. Pack track-approved soft coolers, then take the easy 15-minute downhill walk to BMS.</p>
+            <p>Shred pork, slice brisket, feast with friends, pack track-approved soft coolers, and take the 15-minute downhill walk to BMS.</p>
           </div>
         </div>
 
@@ -460,7 +435,7 @@ sec10 = """
             </button>
             <div class="faq__answer">
               <p>
-                For briskets or pork butts needing 10 to 14 hours, start smoking Friday at 10:00 PM or Saturday at 4:00 AM. This finishes meat by 1:00 PM, giving 2 hours to rest before a 4:00 PM feast.
+                Start smoking large briskets or pork butts Friday night at 10:00 PM or Saturday morning at 4:00 AM. This finishes meat by 1:00 PM, giving 2 hours to rest before a 4:00 PM feast.
               </p>
             </div>
           </div>
@@ -472,7 +447,7 @@ sec10 = """
             </button>
             <div class="faq__answer">
               <p>
-                Use two coolers: dedicate one roto-molded cooler with block ice strictly for raw meats, and a second cooler for drinks. Keep them shaded under your awning and minimize openings.
+                Use two coolers: dedicate one roto-molded cooler with block ice strictly for raw meats, and a second cooler for drinks. Keep them shaded under your awning and limit lid openings.
               </p>
             </div>
           </div>
@@ -520,4 +495,4 @@ sec11 = """
 
 full_article = intro + sec1 + sec2 + m1 + sec3 + sec4 + sec5 + m2 + sec6 + sec7 + sec8 + m3 + sec9 + sec10 + sec11
 words = re.sub(r'<[^>]+>', ' ', full_article).split()
-print("Total words in calibrated article 4:", len(words))
+print("Total words in calibrated article 5:", len(words))
