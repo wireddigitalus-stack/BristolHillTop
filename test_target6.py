@@ -46,7 +46,7 @@ sec2 = """
             <ul>
               <li>Holds 225°F for 12 hours with automated wood feed.</li>
               <li>Requires 110V power; full hookup RV sites make this effortless.</li>
-              <li>Keep pellets in sealed buckets to avoid mountain moisture.</li>
+              <li>Keep pellets in sealed buckets to avoid moisture.</li>
             </ul>
           </div>
 
@@ -56,7 +56,7 @@ sec2 = """
             <ul>
               <li>Unbeatable wood flavor with zero power needs.</li>
               <li>Requires airflow damper tuning and ash cleanup.</li>
-              <li>Bring a lidded metal pail to cool spent embers safely.</li>
+              <li>Bring a lidded metal pail for hot coals.</li>
             </ul>
           </div>
 
@@ -64,8 +64,8 @@ sec2 = """
             <h4>🍳 Portable Propane Griddles (Blackstone 22")</h4>
             <p><strong>Best For:</strong> Fast breakfasts and quick pre-race meals.</p>
             <ul>
-              <li>Instant heat with no ash; great for burgers and bacon.</li>
-              <li>Lacks wood smoke for low-and-slow barbecue cuts.</li>
+              <li>Instant heat, zero ash; great for burgers and bacon.</li>
+              <li>Lacks wood smoke for low-and-slow cuts.</li>
               <li>Use a 20-lb propane tank adapter hose.</li>
             </ul>
           </div>
@@ -99,7 +99,7 @@ sec3 = """
         <div class="recipe-card">
           <h3>1. Colosseum Pulled Pork Butt (Hickory Smoked Pork)</h3>
           <p>
-            Coat an 8-lb pork butt in mustard and brown-sugar rub. Smoke over hickory at 225°F for 5 hours. Spritz with cider vinegar, wrap in heavy foil with butter and brown sugar, and cook at 250°F until tender (203°F). Rest 2 hours in an insulated cooler before pulling onto brioche buns with slaw.
+            Coat an 8-lb pork butt in mustard and brown-sugar rub. Smoke over hickory at 225°F for 5 hours. Spritz with cider vinegar, wrap in heavy foil with butter and brown sugar, and cook at 250°F until probe-tender (203°F). Rest 2 hours in a cooler, then pull onto brioche buns with slaw.
           </p>
         </div>
 
@@ -107,7 +107,7 @@ sec3 = """
         <div class="recipe-card">
           <h3>2. Thunder Valley Smoked St. Louis Ribs (3-2-1 Method)</h3>
           <p>
-            Season spare ribs with pork rub. Smoke at 225°F with applewood for 3 hours. Wrap in foil with butter, brown sugar, and honey for 2 hours. Unwrap, brush with sweet barbecue sauce, and cook 1 final hour until the glaze bubbles into a glossy lacquer. Slice and serve hot.
+            Season ribs with pork rub. Smoke at 225°F with applewood for 3 hours. Wrap in foil with butter, brown sugar, and honey for 2 hours. Unwrap, brush with sweet barbecue sauce, and cook 1 final hour until the glaze caramelizes. Slice and serve hot.
           </p>
         </div>
 
@@ -115,7 +115,7 @@ sec3 = """
         <div class="recipe-card">
           <h3>3. Overnight Brisket Sliders with Pickled Jalapeño Slaw</h3>
           <p>
-            Season a trimmed brisket with salt and coarse pepper. Smoke overnight at 225°F over oak or hickory. Wrap in butcher paper at 165°F and cook until probe-tender (202°F). Rest 2 hours in a cooler, slice thin, and serve on sweet rolls with slaw and pickled jalapeños.
+            Season a trimmed brisket with salt and coarse pepper. Smoke overnight at 225°F over oak or hickory. Wrap in butcher paper at 165°F and cook until probe-tender (202°F). Rest 2 hours in a cooler, slice thin, and serve on sweet rolls with slaw and jalapeños.
           </p>
         </div>
 
@@ -123,7 +123,7 @@ sec3 = """
         <div class="recipe-card">
           <h3>4. High-Banked Smoked &amp; Crisped Wings (Alabama White &amp; Buffalo)</h3>
           <p>
-            Toss dried wings with baking powder and rub. Smoke at 250°F for 45 minutes, then crisp at 400°F for 30 minutes until golden. Toss half in spicy Buffalo sauce and dunk the remainder in creamy Alabama white sauce (mayo, cider vinegar, pepper, horseradish).
+            Toss dried wings with baking powder and rub. Smoke at 250°F for 45 minutes, then crisp at 400°F for 30 minutes until golden. Toss half in Buffalo sauce and dunk the rest in Alabama white sauce (mayo, cider vinegar, pepper, horseradish).
           </p>
         </div>
 
@@ -131,7 +131,7 @@ sec3 = """
         <div class="recipe-card">
           <h3>5. Skillet Campfire Sweet Jalapeño Cornbread</h3>
           <p>
-            Preheat a 10-inch cast iron skillet with bacon grease on your grill. Whisk 2 cups cornmeal mix, buttermilk, eggs, melted butter, honey, cheddar cheese, and diced jalapeño. Pour into the skillet and bake indirectly at 375°F for 30 minutes. Brush with honey butter before slicing.
+            Preheat a 10-inch cast iron skillet with bacon grease on your grill. Whisk 2 cups cornmeal mix, buttermilk, eggs, butter, honey, cheddar, and diced jalapeño. Pour into the skillet and bake indirectly at 375°F for 30 minutes. Brush with honey butter before slicing.
           </p>
         </div>
       </section>
@@ -151,7 +151,7 @@ sec4 = """
             <ul>
               <li><strong>Meat Cooler:</strong> Roto-molded cooler with block ice for raw meats.</li>
               <li><strong>Drink Cooler:</strong> Dedicated cooler for beers, soda, and water.</li>
-              <li><strong>Resting Cooler:</strong> Insulated cooler to hold smoked barbecue warm.</li>
+              <li><strong>Resting Cooler:</strong> Insulated cooler to hold barbecue warm.</li>
               <li><strong>Foil &amp; Tongs:</strong> Heavy foil and long tongs for hot grates.</li>
             </ul>
           </div>
@@ -161,7 +161,7 @@ sec4 = """
             <ul>
               <li><strong>Pop-Up Canopy:</strong> 10x10 frame with UV fabric for shade.</li>
               <li><strong>Leg Weights:</strong> Secure canopy legs against mountain gusts.</li>
-              <li><strong>Camp Chairs:</strong> Folding chairs with cup holders and mesh.</li>
+              <li><strong>Camp Chairs:</strong> Folding chairs with cup holders.</li>
               <li><strong>Ground Mat:</strong> Breathable mat keeps dirt outside your camper.</li>
             </ul>
           </div>
@@ -170,8 +170,8 @@ sec4 = """
             <h4>🏈 Games &amp; Fun</h4>
             <ul>
               <li><strong>Cornhole Boards:</strong> Regulation wood boards for tournaments.</li>
-              <li><strong>Bluetooth Speaker:</strong> Rugged speaker for music and radio feeds.</li>
-              <li><strong>Tailgate TV:</strong> Monitor for practice and qualifying broadcasts.</li>
+              <li><strong>Bluetooth Speaker:</strong> Rugged speaker for tunes and radio feeds.</li>
+              <li><strong>Tailgate TV:</strong> Screen for practice and qualifying broadcasts.</li>
               <li><strong>String Lights:</strong> LED lighting for safe evening cooking.</li>
             </ul>
           </div>
@@ -180,9 +180,9 @@ sec4 = """
             <h4>🧼 Tools &amp; Clean-Up</h4>
             <ul>
               <li><strong>Digital Meat Probe:</strong> Instant thermometer for target temps.</li>
-              <li><strong>Insulated Gloves:</strong> Heat-safe food gloves for pulling hot pork.</li>
-              <li><strong>Wash Station:</strong> Water jug with spigot, soap, and paper towels.</li>
-              <li><strong>Contractor Bags:</strong> Heavy trash bags to keep your lot spotless.</li>
+              <li><strong>Insulated Gloves:</strong> Heat-safe food gloves for pulling pork.</li>
+              <li><strong>Wash Station:</strong> Water jug with spigot, soap, and towels.</li>
+              <li><strong>Contractor Bags:</strong> Heavy trash bags to keep your lot clean.</li>
             </ul>
           </div>
         </div>
@@ -201,15 +201,15 @@ sec5 = """
           <div class="timeline-badge">Thursday</div>
           <div class="timeline-body">
             <h4>Arrival &amp; Setup</h4>
-            <p>Level your camper, connect full hookups, roll out your awning, grill flat-top burgers, and watch the UNOH 200 Truck race.</p>
+            <p>Level your camper, connect hookups, roll out your awning, grill flat-top burgers, and watch the Truck race.</p>
           </div>
         </div>
 
         <div class="timeline-block">
           <div class="timeline-badge">Friday AM</div>
           <div class="timeline-body">
-            <h4>Breakfast &amp; Meat Rubbing</h4>
-            <p>Cook breakfast on the griddle, trim briskets and pork butts, apply rubs, and keep meats chilled so seasonings cure deep.</p>
+            <h4>Breakfast &amp; Prep</h4>
+            <p>Cook breakfast on the griddle, trim briskets and pork butts, apply rubs, and chill meats so seasonings cure deep.</p>
           </div>
         </div>
 
@@ -217,31 +217,31 @@ sec5 = """
           <div class="timeline-badge">Friday PM</div>
           <div class="timeline-body">
             <h4>Wings &amp; Pit Lighting</h4>
-            <p>Smoke wings for happy hour, watch the Xfinity Series race, and light your smoker at 10:30 PM for an overnight cook.</p>
+            <p>Smoke wings for happy hour, watch the Xfinity race, and light your smoker at 10:30 PM for an overnight cook.</p>
           </div>
         </div>
 
         <div class="timeline-block">
           <div class="timeline-badge">Saturday 8 AM</div>
           <div class="timeline-body">
-            <h4>Meat Wrap &amp; Rib Cook</h4>
-            <p>Wrap brisket or pork in butcher paper once the bark sets (~165°F), then load St. Louis ribs onto the smoker for their 3-2-1 cook.</p>
+            <h4>Meat Wrap &amp; Ribs</h4>
+            <p>Wrap brisket or pork in paper once bark sets (~165°F), then load ribs onto the smoker for their 3-2-1 cook.</p>
           </div>
         </div>
 
         <div class="timeline-block">
           <div class="timeline-badge">Saturday 2 PM</div>
           <div class="timeline-body">
-            <h4>Cooler Rest &amp; Cornbread</h4>
-            <p>Transfer tender meats into an insulated cooler to rest. Glaze ribs and bake skillet jalapeño cornbread on the grill.</p>
+            <h4>Rest &amp; Cornbread</h4>
+            <p>Transfer tender meats to an insulated cooler to rest. Glaze ribs and bake skillet jalapeño cornbread on the grill.</p>
           </div>
         </div>
 
         <div class="timeline-block">
           <div class="timeline-badge">Saturday 4 PM</div>
           <div class="timeline-body">
-            <h4>Pre-Race Feast &amp; Walk</h4>
-            <p>Shred pork, slice brisket, feast with friends, pack track-approved soft coolers, and take the 15-minute downhill walk to BMS.</p>
+            <h4>Feast &amp; Track Walk</h4>
+            <p>Shred pork, slice brisket, feast with friends, pack soft coolers, and take the 15-minute downhill walk to BMS.</p>
           </div>
         </div>
 
@@ -249,7 +249,7 @@ sec5 = """
           <div class="timeline-badge">Saturday Night</div>
           <div class="timeline-body">
             <h4>Campfire Celebration</h4>
-            <p>Stroll back to camp while highway traffic idles in gridlock. Stoke the campfire, toast s'mores, and rehash the race under the stars.</p>
+            <p>Stroll back to camp while traffic idles in gridlock. Stoke the campfire, toast s'mores, and rehash the race under the stars.</p>
           </div>
         </div>
       </section>
@@ -350,7 +350,7 @@ sec8 = """
             <h3 style="color: var(--color-primary); margin-top: 0; margin-bottom: 0.2rem; font-size: 1.05rem;">🎸 Delta Blues BBQ (Bristol, TN)</h3>
             <p style="font-size: 0.85rem; color: var(--color-text-light); margin-bottom: 0.3rem;">📍 724 State Street, Bristol &bull; Historic Downtown</p>
             <p style="margin-bottom: 0;">
-              Located on historic State Street, Delta Blues serves slow-smoked Texas brisket, baby back ribs, pulled pork nachos, and local craft beers with live bluegrass and roots music.
+              Located on historic State Street, Delta Blues serves slow-smoked Texas brisket, baby back ribs, pulled pork nachos, and local craft beers with live music.
             </p>
           </div>
 
@@ -495,4 +495,4 @@ sec11 = """
 
 full_article = intro + sec1 + sec2 + m1 + sec3 + sec4 + sec5 + m2 + sec6 + sec7 + sec8 + m3 + sec9 + sec10 + sec11
 words = re.sub(r'<[^>]+>', ' ', full_article).split()
-print("Total words in calibrated article 5:", len(words))
+print("Total words in calibrated article 6:", len(words))
