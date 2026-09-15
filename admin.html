@@ -678,17 +678,81 @@
     });
 
     // ============================================
-    // DASHBOARD
+    // SUPABASE CONFIG
     // ============================================
-    const STORAGE_KEY = 'bhc_telemetry';
-    const LEADS_KEY = 'bhc_leads';
+    const SB_URL = 'https://ypawnqzphvwqinofcsod.supabase.co';
+    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwYXducXpwaHZ3cWlub2Zjc29kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0NjAxNTUsImV4cCI6MjEwNTAzNjE1NX0.B_vZ5u5-T6CGnZVyZO7dhdH_Gm1FHXK_iDMUO9R40gk';
 
-    function getData() {
-      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) { return {}; }
+    function sbFetch(table, query) {
+      return fetch(SB_URL + '/rest/v1/' + table + '?' + (query || ''), {
+        headers: {
+          'apikey': SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY
+        }
+      }).then(function(r) { return r.json(); });
     }
 
-    function getLeads() {
-      try { return JSON.parse(localStorage.getItem(LEADS_KEY)) || []; } catch(e) { return []; }
+    function sbUpdate(table, id, data) {
+      return fetch(SB_URL + '/rest/v1/' + table + '?id=eq.' + id, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(data)
+      });
+    }
+
+    // Aggregate raw hits into dashboard-friendly structure
+    function aggregateHits(hits) {
+      var d = {
+        counters: { views: 0, clicks: 0, calls: 0, texts: 0, leads: 0 },
+        daily: {}, hourly: {}, pages: {}, devices: {}, sources: {}, clickMap: {}, sessions: []
+      };
+
+      hits.forEach(function(h) {
+        var day = h.created_at.split('T')[0];
+        var hour = String(new Date(h.created_at).getHours());
+
+        switch(h.type) {
+          case 'pageview':
+            d.counters.views++;
+            if (!d.daily[day]) d.daily[day] = { views: 0, calls: 0 };
+            d.daily[day].views++;
+            d.hourly[hour] = (d.hourly[hour] || 0) + 1;
+            if (h.page) d.pages[h.page] = (d.pages[h.page] || 0) + 1;
+            if (h.device) d.devices[h.device] = (d.devices[h.device] || 0) + 1;
+            if (h.source) d.sources[h.source] = (d.sources[h.source] || 0) + 1;
+            d.sessions.unshift({
+              page: h.page, device: h.device, referrer: h.source, time: h.created_at
+            });
+            break;
+          case 'click':
+            d.counters.clicks++;
+            if (h.label) d.clickMap[h.label] = (d.clickMap[h.label] || 0) + 1;
+            break;
+          case 'call':
+            d.counters.calls++;
+            d.counters.clicks++;
+            if (!d.daily[day]) d.daily[day] = { views: 0, calls: 0 };
+            d.daily[day].calls++;
+            d.clickMap['📞 Phone Call Click'] = (d.clickMap['📞 Phone Call Click'] || 0) + 1;
+            break;
+          case 'text':
+            d.counters.texts++;
+            d.counters.clicks++;
+            d.clickMap['💬 Text Message Click'] = (d.clickMap['💬 Text Message Click'] || 0) + 1;
+            break;
+          case 'lead':
+            d.counters.leads++;
+            break;
+        }
+      });
+
+      if (d.sessions.length > 100) d.sessions = d.sessions.slice(0, 100);
+      return d;
     }
 
     function switchTab(tab) {
@@ -708,20 +772,20 @@
     function refreshDash() { renderDashboard(); }
 
     function exportData() {
-      var data = getData();
-      var leads = getLeads();
-      var blob = new Blob([JSON.stringify({ analytics: data, leads: leads }, null, 2)], { type: 'application/json' });
-      var a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'bhc-analytics-' + new Date().toISOString().split('T')[0] + '.json';
-      a.click();
+      Promise.all([
+        sbFetch('hits', 'select=*&order=created_at.desc'),
+        sbFetch('leads', 'select=*&order=created_at.desc')
+      ]).then(function(results) {
+        var blob = new Blob([JSON.stringify({ hits: results[0], leads: results[1] }, null, 2)], { type: 'application/json' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'bhc-analytics-' + new Date().toISOString().split('T')[0] + '.json';
+        a.click();
+      });
     }
 
     function resetAnalytics() {
-      if (confirm('⚠️ Reset all analytics data? This clears page views, clicks, and traffic sources.\n\nLeads will be kept.\n\nThis cannot be undone.')) {
-        localStorage.removeItem(STORAGE_KEY);
-        renderDashboard();
-      }
+      alert('Data is stored in Supabase. Use the Supabase dashboard to manage data.');
     }
 
     // Chart instances for cleanup
@@ -739,28 +803,45 @@
 
     function renderDashboard() {
       destroyCharts();
-      var d = getData();
-      var leads = getLeads();
 
-      // Stat cards
-      var c = d.counters || {};
-      document.getElementById('s-views').textContent = (c.views || 0).toLocaleString();
-      document.getElementById('s-calls').textContent = (c.calls || 0).toLocaleString();
-      document.getElementById('s-texts').textContent = (c.texts || 0).toLocaleString();
-      document.getElementById('s-clicks').textContent = (c.clicks || 0).toLocaleString();
-      document.getElementById('s-leads').textContent = (c.leads || 0).toLocaleString();
-      document.getElementById('s-pages').textContent = Object.keys(d.pages || {}).length;
+      // Show loading state
+      document.getElementById('s-views').textContent = '...';
+      document.getElementById('s-calls').textContent = '...';
 
-      // Daily views chart
-      renderDailyChart(d);
-      renderDevicesChart(d);
-      renderReferrersChart(d);
-      renderHourlyChart(d);
-      renderTopPages(d);
-      renderClickMap(d);
-      renderLeads(leads);
-      renderSessions(d);
-      initLeadCount();
+      // Fetch hits and leads from Supabase in parallel
+      Promise.all([
+        sbFetch('hits', 'select=*&order=created_at.desc&limit=10000'),
+        sbFetch('leads', 'select=*&order=created_at.desc')
+      ]).then(function(results) {
+        var hits = results[0] || [];
+        var leads = results[1] || [];
+
+        // Aggregate hits into dashboard structure
+        var d = aggregateHits(hits);
+
+        // Stat cards
+        var c = d.counters;
+        document.getElementById('s-views').textContent = (c.views || 0).toLocaleString();
+        document.getElementById('s-calls').textContent = (c.calls || 0).toLocaleString();
+        document.getElementById('s-texts').textContent = (c.texts || 0).toLocaleString();
+        document.getElementById('s-clicks').textContent = (c.clicks || 0).toLocaleString();
+        document.getElementById('s-leads').textContent = leads.length.toLocaleString();
+        document.getElementById('s-pages').textContent = Object.keys(d.pages || {}).length;
+
+        // Render all charts
+        renderDailyChart(d);
+        renderDevicesChart(d);
+        renderReferrersChart(d);
+        renderHourlyChart(d);
+        renderTopPages(d);
+        renderClickMap(d);
+        renderLeads(leads);
+        renderSessions(d);
+        initLeadCount();
+      }).catch(function(err) {
+        console.error('Supabase fetch error:', err);
+        document.getElementById('s-views').textContent = 'ERR';
+      });
     }
 
     function renderDailyChart(d) {
@@ -971,7 +1052,7 @@
 
       el.innerHTML = leads.map(function(l) {
         var badgeClass = l.status === 'new' ? 'new' : l.status === 'contacted' ? 'contacted' : 'closed';
-        var time = new Date(l.time);
+        var time = new Date(l.created_at || l.time);
         var timeStr = time.toLocaleDateString() + ' ' + time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
         return '<div class="lead-card">' +
@@ -994,10 +1075,9 @@
     }
 
     function updateLeadStatus(id, status) {
-      var leads = getLeads();
-      leads = leads.map(function(l) { if (l.id === id) l.status = status; return l; });
-      try { localStorage.setItem(LEADS_KEY, JSON.stringify(leads)); } catch(e) {}
-      renderLeads(leads);
+      sbUpdate('leads', id, { status: status }).then(function() {
+        renderDashboard();
+      });
     }
 
     function renderSessions(d) {
@@ -1027,30 +1107,27 @@
     var alertTimeout = null;
 
     function checkForNewLeads() {
-      var leads = getLeads();
-      var newCount = leads.filter(function(l) { return l.status === 'new'; }).length;
+      sbFetch('leads', 'select=*&order=created_at.desc').then(function(leads) {
+        var newCount = leads.filter(function(l) { return l.status === 'new'; }).length;
 
-      // Update badge
-      var badge = document.getElementById('leads-badge');
-      if (newCount > 0) {
-        badge.textContent = newCount;
-        badge.classList.add('visible');
-      } else {
-        badge.classList.remove('visible');
-      }
+        // Update badge
+        var badge = document.getElementById('leads-badge');
+        if (newCount > 0) {
+          badge.textContent = newCount;
+          badge.classList.add('visible');
+        } else {
+          badge.classList.remove('visible');
+        }
 
-      // Show alert if new leads appeared since last check
-      if (leads.length > lastKnownLeadCount && lastKnownLeadCount > 0) {
-        var newest = leads[0];
-        showLeadAlert(newest);
-        // Auto-refresh the leads panel
-        renderLeads(leads);
-        // Also refresh stats
-        var d = getData();
-        document.getElementById('s-leads').textContent = ((d.counters || {}).leads || 0).toLocaleString();
-      }
+        // Show alert if new leads appeared since last check
+        if (leads.length > lastKnownLeadCount && lastKnownLeadCount > 0) {
+          var newest = leads[0];
+          showLeadAlert(newest);
+          renderDashboard();
+        }
 
-      lastKnownLeadCount = leads.length;
+        lastKnownLeadCount = leads.length;
+      }).catch(function() {});
     }
 
     function showLeadAlert(lead) {
@@ -1098,13 +1175,14 @@
       clearTimeout(alertTimeout);
     }
 
-    // Poll for new leads every 3 seconds
-    setInterval(checkForNewLeads, 3000);
+    // Poll for new leads every 10 seconds
+    setInterval(checkForNewLeads, 10000);
 
     // Initialize lead count on load
     function initLeadCount() {
-      lastKnownLeadCount = getLeads().length;
-      checkForNewLeads();
+      sbFetch('leads', 'select=id').then(function(leads) {
+        lastKnownLeadCount = leads.length;
+      }).catch(function() {});
     }
   </script>
 </body>

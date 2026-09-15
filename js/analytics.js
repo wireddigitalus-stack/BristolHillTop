@@ -1,123 +1,39 @@
 /**
  * Bristol Hilltop Camping — Telemetry Counter
- * Simple hit counter that logs all events to localStorage.
- * 
- * ┌─────────────────────────────────────────────┐
- * │  TO HOOK UP A DATABASE LATER:               │
- * │  Replace sendHit() to POST to your API      │
- * │  e.g. fetch('/api/track', { body: hit })    │
- * └─────────────────────────────────────────────┘
+ * Posts all events to Supabase + localStorage fallback
  */
 (function() {
   'use strict';
 
-  var DB_KEY = 'bhc_telemetry';
-  var LEADS_KEY = 'bhc_leads';
+  // =============================================
+  // SUPABASE CONFIG
+  // =============================================
+  var SUPABASE_URL = 'https://ypawnqzphvwqinofcsod.supabase.co';
+  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwYXducXpwaHZ3cWlub2Zjc29kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0NjAxNTUsImV4cCI6MjEwNTAzNjE1NX0.B_vZ5u5-T6CGnZVyZO7dhdH_Gm1FHXK_iDMUO9R40gk';
 
   // =============================================
-  // DATABASE LAYER — swap this out later
+  // SEND HIT → Supabase
   // =============================================
-  function getDB() {
-    try { return JSON.parse(localStorage.getItem(DB_KEY)) || freshDB(); }
-    catch(e) { return freshDB(); }
-  }
-
-  function saveDB(db) {
-    try { localStorage.setItem(DB_KEY, JSON.stringify(db)); } catch(e) {}
-  }
-
-  function getLeads() {
-    try { return JSON.parse(localStorage.getItem(LEADS_KEY)) || []; }
-    catch(e) { return []; }
-  }
-
-  function saveLeads(leads) {
-    try { localStorage.setItem(LEADS_KEY, JSON.stringify(leads)); } catch(e) {}
-  }
-
-  function freshDB() {
-    return {
-      counters: {
-        views: 0,
-        clicks: 0,
-        calls: 0,
-        texts: 0,
-        leads: 0
-      },
-      daily: {},        // { '2026-09-15': { views: 5, calls: 1 } }
-      hourly: {},       // { '14': 3 }
-      pages: {},        // { '/': 10, '/blog/': 5 }
-      devices: {},      // { 'Mobile': 8, 'Desktop': 3 }
-      sources: {},      // { 'Google Search': 4 }
-      clickMap: {},     // { '📞 Phone Call Click': 12 }
-      sessions: []      // last 100 visitor sessions
-    };
-  }
-
-  // =============================================
-  // SEND HIT — the one function to swap later
-  // =============================================
-  //
-  // Right now: saves to localStorage
-  // Later:     POST to /api/track or Firebase
-  //
   function sendHit(type, data) {
-    var db = getDB();
-    var day = new Date().toISOString().split('T')[0];
-    var hour = String(new Date().getHours());
+    var row = {
+      type: type,
+      page: data.page || null,
+      device: data.device || null,
+      source: data.source || null,
+      label: data.label || null
+    };
 
-    if (!db.daily[day]) db.daily[day] = { views: 0, calls: 0 };
-
-    switch(type) {
-
-      case 'pageview':
-        db.counters.views++;
-        db.daily[day].views++;
-        db.hourly[hour] = (db.hourly[hour] || 0) + 1;
-        db.pages[data.page] = (db.pages[data.page] || 0) + 1;
-        db.devices[data.device] = (db.devices[data.device] || 0) + 1;
-        db.sources[data.source] = (db.sources[data.source] || 0) + 1;
-        // Session log
-        db.sessions.unshift({
-          page: data.page,
-          device: data.device,
-          source: data.source,
-          time: new Date().toISOString()
-        });
-        if (db.sessions.length > 100) db.sessions = db.sessions.slice(0, 100);
-        break;
-
-      case 'click':
-        db.counters.clicks++;
-        db.clickMap[data.label] = (db.clickMap[data.label] || 0) + 1;
-        break;
-
-      case 'call':
-        db.counters.calls++;
-        db.counters.clicks++;
-        db.daily[day].calls++;
-        db.clickMap['📞 Phone Call Click'] = (db.clickMap['📞 Phone Call Click'] || 0) + 1;
-        break;
-
-      case 'text':
-        db.counters.texts++;
-        db.counters.clicks++;
-        db.clickMap['💬 Text Message Click'] = (db.clickMap['💬 Text Message Click'] || 0) + 1;
-        break;
-
-      case 'lead':
-        db.counters.leads++;
-        break;
-    }
-
-    saveDB(db);
-
-    // ── FUTURE DATABASE HOOK ──
-    // fetch('/api/track', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ type: type, data: data, ts: Date.now() })
-    // }).catch(function(){});
+    // POST to Supabase
+    fetch(SUPABASE_URL + '/rest/v1/hits', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(row)
+    }).catch(function() {});
   }
 
   // =============================================
@@ -144,12 +60,12 @@
   function getClickLabel(el) {
     var node = el;
     for (var i = 0; i < 5 && node; i++) {
-      if (node.href && node.href.startsWith('tel:')) return null; // handled as 'call'
-      if (node.href && node.href.startsWith('sms:')) return null; // handled as 'text'
+      if (node.href && node.href.startsWith('tel:')) return null;
+      if (node.href && node.href.startsWith('sms:')) return null;
       if (node.classList && node.classList.contains('btn--call')) return '📞 Call Button';
       if (node.classList && node.classList.contains('btn--outline')) return '🔗 ' + (node.textContent || '').trim().substring(0, 40);
       if (node.classList && node.classList.contains('nav__link')) return '📍 Nav: ' + (node.textContent || '').trim();
-      if (node.classList && node.classList.contains('race-card')) return '📄 Blog: ' + (node.querySelector('h3')?.textContent || '').trim().substring(0, 40);
+      if (node.classList && node.classList.contains('race-card')) return '📄 Blog: ' + ((node.querySelector('h3') || {}).textContent || '').trim().substring(0, 40);
       if (node.classList && node.classList.contains('faq__question')) return '❓ FAQ: ' + (node.textContent || '').trim().substring(0, 40);
       if (node.tagName === 'A' && node.href) return '🔗 Link: ' + (node.textContent || '').trim().substring(0, 40);
       node = node.parentElement;
@@ -172,27 +88,24 @@
   document.addEventListener('click', function(e) {
     var link = e.target.closest ? e.target.closest('a') : null;
 
-    // Phone call
     if (link && link.href && link.href.startsWith('tel:')) {
-      sendHit('call', {});
+      sendHit('call', { page: window.location.pathname });
       return;
     }
 
-    // Text message
     if (link && link.href && link.href.startsWith('sms:')) {
-      sendHit('text', {});
+      sendHit('text', { page: window.location.pathname });
       return;
     }
 
-    // General click
     var label = getClickLabel(e.target);
     if (label) {
-      sendHit('click', { label: label });
+      sendHit('click', { label: label, page: window.location.pathname });
     }
   }, true);
 
   // =============================================
-  // LEAD FORM HANDLER
+  // LEAD FORM → Supabase
   // =============================================
   window.bhcSubmitLead = function(form) {
     var name = form.querySelector('[name="lead_name"]').value.trim();
@@ -206,22 +119,26 @@
       return false;
     }
 
-    // Save lead
-    var leads = getLeads();
-    leads.unshift({
-      id: Date.now(),
-      name: name,
-      phone: phone,
-      email: email,
-      interest: interest,
-      message: message,
-      time: new Date().toISOString(),
-      status: 'new'
-    });
-    saveLeads(leads);
+    // POST lead to Supabase
+    fetch(SUPABASE_URL + '/rest/v1/leads', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        name: name,
+        phone: phone,
+        email: email || null,
+        interest: interest,
+        message: message || null
+      })
+    }).catch(function() {});
 
-    // Count it
-    sendHit('lead', {});
+    // Also count as a hit
+    sendHit('lead', { page: window.location.pathname });
 
     // Success message
     form.innerHTML = '<div style="text-align:center;padding:2rem;">' +
