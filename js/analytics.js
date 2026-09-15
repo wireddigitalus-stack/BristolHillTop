@@ -1,164 +1,199 @@
 /**
- * Bristol Hilltop Camping — Lightweight Analytics & Lead Tracking
- * Stores all data in localStorage for static-site use
+ * Bristol Hilltop Camping — Telemetry Counter
+ * Simple hit counter that logs all events to localStorage.
+ * 
+ * ┌─────────────────────────────────────────────┐
+ * │  TO HOOK UP A DATABASE LATER:               │
+ * │  Replace sendHit() to POST to your API      │
+ * │  e.g. fetch('/api/track', { body: hit })    │
+ * └─────────────────────────────────────────────┘
  */
 (function() {
   'use strict';
 
-  const STORAGE_KEY = 'bhc_analytics';
-  const LEADS_KEY = 'bhc_leads';
+  var DB_KEY = 'bhc_telemetry';
+  var LEADS_KEY = 'bhc_leads';
 
-  // --- Helpers ---
-  function getData() {
-    try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || createFreshData();
-    } catch(e) {
-      return createFreshData();
-    }
+  // =============================================
+  // DATABASE LAYER — swap this out later
+  // =============================================
+  function getDB() {
+    try { return JSON.parse(localStorage.getItem(DB_KEY)) || freshDB(); }
+    catch(e) { return freshDB(); }
   }
 
-  function saveData(data) {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+  function saveDB(db) {
+    try { localStorage.setItem(DB_KEY, JSON.stringify(db)); } catch(e) {}
   }
 
   function getLeads() {
-    try {
-      return JSON.parse(localStorage.getItem(LEADS_KEY)) || [];
-    } catch(e) { return []; }
+    try { return JSON.parse(localStorage.getItem(LEADS_KEY)) || []; }
+    catch(e) { return []; }
   }
 
   function saveLeads(leads) {
     try { localStorage.setItem(LEADS_KEY, JSON.stringify(leads)); } catch(e) {}
   }
 
-  function createFreshData() {
+  function freshDB() {
     return {
-      totalViews: 0,
-      totalClicks: 0,
-      totalCalls: 0,
-      totalTexts: 0,
-      totalLeads: 0,
-      pageViews: {},    // { '/': 45, '/blog/': 12 }
-      dailyViews: {},   // { '2026-09-10': 23 }
-      dailyCalls: {},
-      clickMap: {},     // { 'Call Now CTA': 5, 'Rentals Nav': 3 }
-      devices: {},      // { 'mobile': 30, 'desktop': 15 }
-      referrers: {},    // { 'google': 10, 'direct': 20 }
-      hourlyViews: {},  // { '14': 5, '15': 8 }
-      sessions: []      // last 50 sessions
+      counters: {
+        views: 0,
+        clicks: 0,
+        calls: 0,
+        texts: 0,
+        leads: 0
+      },
+      daily: {},        // { '2026-09-15': { views: 5, calls: 1 } }
+      hourly: {},       // { '14': 3 }
+      pages: {},        // { '/': 10, '/blog/': 5 }
+      devices: {},      // { 'Mobile': 8, 'Desktop': 3 }
+      sources: {},      // { 'Google Search': 4 }
+      clickMap: {},     // { '📞 Phone Call Click': 12 }
+      sessions: []      // last 100 visitor sessions
     };
   }
 
-  function today() {
-    return new Date().toISOString().split('T')[0];
+  // =============================================
+  // SEND HIT — the one function to swap later
+  // =============================================
+  //
+  // Right now: saves to localStorage
+  // Later:     POST to /api/track or Firebase
+  //
+  function sendHit(type, data) {
+    var db = getDB();
+    var day = new Date().toISOString().split('T')[0];
+    var hour = String(new Date().getHours());
+
+    if (!db.daily[day]) db.daily[day] = { views: 0, calls: 0 };
+
+    switch(type) {
+
+      case 'pageview':
+        db.counters.views++;
+        db.daily[day].views++;
+        db.hourly[hour] = (db.hourly[hour] || 0) + 1;
+        db.pages[data.page] = (db.pages[data.page] || 0) + 1;
+        db.devices[data.device] = (db.devices[data.device] || 0) + 1;
+        db.sources[data.source] = (db.sources[data.source] || 0) + 1;
+        // Session log
+        db.sessions.unshift({
+          page: data.page,
+          device: data.device,
+          source: data.source,
+          time: new Date().toISOString()
+        });
+        if (db.sessions.length > 100) db.sessions = db.sessions.slice(0, 100);
+        break;
+
+      case 'click':
+        db.counters.clicks++;
+        db.clickMap[data.label] = (db.clickMap[data.label] || 0) + 1;
+        break;
+
+      case 'call':
+        db.counters.calls++;
+        db.counters.clicks++;
+        db.daily[day].calls++;
+        db.clickMap['📞 Phone Call Click'] = (db.clickMap['📞 Phone Call Click'] || 0) + 1;
+        break;
+
+      case 'text':
+        db.counters.texts++;
+        db.counters.clicks++;
+        db.clickMap['💬 Text Message Click'] = (db.clickMap['💬 Text Message Click'] || 0) + 1;
+        break;
+
+      case 'lead':
+        db.counters.leads++;
+        break;
+    }
+
+    saveDB(db);
+
+    // ── FUTURE DATABASE HOOK ──
+    // fetch('/api/track', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ type: type, data: data, ts: Date.now() })
+    // }).catch(function(){});
   }
 
-  function getHour() {
-    return String(new Date().getHours());
-  }
-
-  function getDeviceType() {
-    const w = window.innerWidth;
+  // =============================================
+  // DETECTORS
+  // =============================================
+  function getDevice() {
+    var w = window.innerWidth;
     if (w < 768) return 'Mobile';
     if (w < 1024) return 'Tablet';
     return 'Desktop';
   }
 
-  function getReferrer() {
-    const ref = document.referrer;
+  function getSource() {
+    var ref = document.referrer;
     if (!ref) return 'Organic Search';
     if (ref.includes('google.com/maps') || ref.includes('google.com/local')) return 'Google Business';
     if (ref.includes('google')) return 'Google Search';
     if (ref.includes('bing')) return 'Bing Search';
-    if (ref.includes('yahoo')) return 'Yahoo Search';
-    if (ref.includes('duckduckgo')) return 'DuckDuckGo';
     if (ref.includes('facebook') || ref.includes('fb.')) return 'Facebook';
-    if (ref.includes('instagram')) return 'Instagram';
-    if (ref.includes('twitter') || ref.includes('t.co')) return 'Twitter / X';
-    if (ref.includes('youtube')) return 'YouTube';
-    if (ref.includes('tiktok')) return 'TikTok';
-    if (ref.includes('nextdoor')) return 'Nextdoor';
-    if (ref.includes('yelp')) return 'Yelp';
     if (ref.includes('vercel')) return 'Organic Search';
     return 'Other Referral';
   }
 
-  function getPagePath() {
-    return window.location.pathname || '/';
-  }
-
   function getClickLabel(el) {
-    // Walk up to find meaningful label
-    let node = el;
-    for (let i = 0; i < 5 && node; i++) {
-      if (node.href && node.href.startsWith('tel:')) return '📞 Phone Call Click';
-      if (node.href && node.href.startsWith('sms:')) return '💬 Text Message Click';
+    var node = el;
+    for (var i = 0; i < 5 && node; i++) {
+      if (node.href && node.href.startsWith('tel:')) return null; // handled as 'call'
+      if (node.href && node.href.startsWith('sms:')) return null; // handled as 'text'
       if (node.classList && node.classList.contains('btn--call')) return '📞 Call Button';
       if (node.classList && node.classList.contains('btn--outline')) return '🔗 ' + (node.textContent || '').trim().substring(0, 40);
-      if (node.classList && node.classList.contains('btn--primary')) return '🔗 ' + (node.textContent || '').trim().substring(0, 40);
       if (node.classList && node.classList.contains('nav__link')) return '📍 Nav: ' + (node.textContent || '').trim();
       if (node.classList && node.classList.contains('race-card')) return '📄 Blog: ' + (node.querySelector('h3')?.textContent || '').trim().substring(0, 40);
       if (node.classList && node.classList.contains('faq__question')) return '❓ FAQ: ' + (node.textContent || '').trim().substring(0, 40);
       if (node.tagName === 'A' && node.href) return '🔗 Link: ' + (node.textContent || '').trim().substring(0, 40);
       node = node.parentElement;
     }
-    return null; // Not a trackable click
+    return null;
   }
 
-  // --- Track Page View ---
-  function trackPageView() {
-    var data = getData();
-    var path = getPagePath();
-    var day = today();
-    var hour = getHour();
-    var device = getDeviceType();
-    var referrer = getReferrer();
+  // =============================================
+  // EVENT HANDLERS
+  // =============================================
 
-    data.totalViews++;
-    data.pageViews[path] = (data.pageViews[path] || 0) + 1;
-    data.dailyViews[day] = (data.dailyViews[day] || 0) + 1;
-    data.devices[device] = (data.devices[device] || 0) + 1;
-    data.referrers[referrer] = (data.referrers[referrer] || 0) + 1;
-    data.hourlyViews[hour] = (data.hourlyViews[hour] || 0) + 1;
+  // Track page view
+  sendHit('pageview', {
+    page: window.location.pathname || '/',
+    device: getDevice(),
+    source: getSource()
+  });
 
-    // Session log (keep last 100)
-    data.sessions.unshift({
-      page: path,
-      device: device,
-      referrer: referrer,
-      time: new Date().toISOString()
-    });
-    if (data.sessions.length > 100) data.sessions = data.sessions.slice(0, 100);
+  // Track clicks
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest ? e.target.closest('a') : null;
 
-    saveData(data);
-  }
-
-  // --- Track Clicks ---
-  function trackClick(e) {
-    var label = getClickLabel(e.target);
-    if (!label) return;
-
-    var data = getData();
-    data.totalClicks++;
-    data.clickMap[label] = (data.clickMap[label] || 0) + 1;
-
-    // Track calls and texts specifically
-    var el = e.target.closest('a');
-    if (el) {
-      if (el.href && el.href.startsWith('tel:')) {
-        data.totalCalls++;
-        var day = today();
-        data.dailyCalls[day] = (data.dailyCalls[day] || 0) + 1;
-      }
-      if (el.href && el.href.startsWith('sms:')) {
-        data.totalTexts++;
-      }
+    // Phone call
+    if (link && link.href && link.href.startsWith('tel:')) {
+      sendHit('call', {});
+      return;
     }
 
-    saveData(data);
-  }
+    // Text message
+    if (link && link.href && link.href.startsWith('sms:')) {
+      sendHit('text', {});
+      return;
+    }
 
-  // --- Lead Form Submission ---
+    // General click
+    var label = getClickLabel(e.target);
+    if (label) {
+      sendHit('click', { label: label });
+    }
+  }, true);
+
+  // =============================================
+  // LEAD FORM HANDLER
+  // =============================================
   window.bhcSubmitLead = function(form) {
     var name = form.querySelector('[name="lead_name"]').value.trim();
     var phone = form.querySelector('[name="lead_phone"]').value.trim();
@@ -171,6 +206,7 @@
       return false;
     }
 
+    // Save lead
     var leads = getLeads();
     leads.unshift({
       id: Date.now(),
@@ -184,18 +220,16 @@
     });
     saveLeads(leads);
 
-    // Update analytics
-    var data = getData();
-    data.totalLeads++;
-    saveData(data);
+    // Count it
+    sendHit('lead', {});
 
-    // Show success
-    form.innerHTML = '<div style="text-align:center;padding:2rem;"><p style="font-size:1.5rem;margin-bottom:0.5rem;">✅ Thank You!</p><p>We\'ll call you shortly at <strong>' + phone + '</strong></p><p style="margin-top:1rem;"><a href="tel:+14233835373" class="btn btn--call"><span class="btn__icon">📞</span> Call Us Now: (423) 383-5373</a></p></div>';
+    // Success message
+    form.innerHTML = '<div style="text-align:center;padding:2rem;">' +
+      '<p style="font-size:1.5rem;margin-bottom:0.5rem;">✅ Thank You!</p>' +
+      '<p>We\'ll call you shortly at <strong>' + phone + '</strong></p>' +
+      '<p style="margin-top:1rem;"><a href="tel:+14233835373" class="btn btn--call">' +
+      '<span class="btn__icon">📞</span> Call Us Now: (423) 383-5373</a></p></div>';
     return false;
   };
-
-  // --- Initialize ---
-  trackPageView();
-  document.addEventListener('click', trackClick, true);
 
 })();

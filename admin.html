@@ -680,7 +680,7 @@
     // ============================================
     // DASHBOARD
     // ============================================
-    const STORAGE_KEY = 'bhc_analytics';
+    const STORAGE_KEY = 'bhc_telemetry';
     const LEADS_KEY = 'bhc_leads';
 
     function getData() {
@@ -743,12 +743,13 @@
       var leads = getLeads();
 
       // Stat cards
-      document.getElementById('s-views').textContent = (d.totalViews || 0).toLocaleString();
-      document.getElementById('s-calls').textContent = (d.totalCalls || 0).toLocaleString();
-      document.getElementById('s-texts').textContent = (d.totalTexts || 0).toLocaleString();
-      document.getElementById('s-clicks').textContent = (d.totalClicks || 0).toLocaleString();
-      document.getElementById('s-leads').textContent = (d.totalLeads || 0).toLocaleString();
-      document.getElementById('s-pages').textContent = Object.keys(d.pageViews || {}).length;
+      var c = d.counters || {};
+      document.getElementById('s-views').textContent = (c.views || 0).toLocaleString();
+      document.getElementById('s-calls').textContent = (c.calls || 0).toLocaleString();
+      document.getElementById('s-texts').textContent = (c.texts || 0).toLocaleString();
+      document.getElementById('s-clicks').textContent = (c.clicks || 0).toLocaleString();
+      document.getElementById('s-leads').textContent = (c.leads || 0).toLocaleString();
+      document.getElementById('s-pages').textContent = Object.keys(d.pages || {}).length;
 
       // Daily views chart
       renderDailyChart(d);
@@ -763,8 +764,7 @@
     }
 
     function renderDailyChart(d) {
-      var daily = d.dailyViews || {};
-      var calls = d.dailyCalls || {};
+      var daily = d.daily || {};
       var labels = Object.keys(daily).sort().slice(-14);
       if (labels.length === 0) labels = [new Date().toISOString().split('T')[0]];
 
@@ -775,7 +775,7 @@
           datasets: [
             {
               label: 'Page Views',
-              data: labels.map(function(l) { return daily[l] || 0; }),
+              data: labels.map(function(l) { return (daily[l] && daily[l].views) || 0; }),
               borderColor: '#0a84ff',
               backgroundColor: 'rgba(10,132,255,0.1)',
               fill: true,
@@ -786,7 +786,7 @@
             },
             {
               label: 'Call Clicks',
-              data: labels.map(function(l) { return calls[l] || 0; }),
+              data: labels.map(function(l) { return (daily[l] && daily[l].calls) || 0; }),
               borderColor: '#30d158',
               backgroundColor: 'rgba(48,209,88,0.1)',
               fill: true,
@@ -858,7 +858,7 @@
       // Merge real data onto defaults
       var refs = {};
       allSources.forEach(function(k) { refs[k] = 0; });
-      var raw = d.referrers || {};
+      var raw = d.sources || {};
       Object.keys(raw).forEach(function(k) {
         if (refs.hasOwnProperty(k)) {
           refs[k] += raw[k];
@@ -892,7 +892,7 @@
     }
 
     function renderHourlyChart(d) {
-      var hourly = d.hourlyViews || {};
+      var hourly = d.hourly || {};
       var labels = [];
       var data = [];
       for (var i = 0; i < 24; i++) {
@@ -926,7 +926,7 @@
     }
 
     function renderTopPages(d) {
-      var pages = d.pageViews || {};
+      var pages = d.pages || {};
       var sorted = Object.entries(pages).sort(function(a, b) { return b[1] - a[1]; }).slice(0, 10);
       var maxVal = sorted.length ? sorted[0][1] : 1;
 
@@ -1047,7 +1047,7 @@
         renderLeads(leads);
         // Also refresh stats
         var d = getData();
-        document.getElementById('s-leads').textContent = (d.totalLeads || 0).toLocaleString();
+        document.getElementById('s-leads').textContent = ((d.counters || {}).leads || 0).toLocaleString();
       }
 
       lastKnownLeadCount = leads.length;
