@@ -79,6 +79,7 @@
     if (ref.includes('tiktok')) return 'TikTok';
     if (ref.includes('nextdoor')) return 'Nextdoor';
     if (ref.includes('yelp')) return 'Yelp';
+    if (ref.includes('vercel')) return 'Direct / Typed URL';
     try { return new URL(ref).hostname; } catch(e) { return 'Other Referral'; }
   }
 

@@ -525,6 +525,7 @@
       <div class="dash-header-actions">
         <button class="dash-btn" onclick="refreshDash()">↻ Refresh</button>
         <button class="dash-btn" onclick="exportData()">↓ Export</button>
+        <button class="dash-btn danger" onclick="resetAnalytics()">🗑️ Reset</button>
         <button class="dash-btn danger" onclick="lockDash()">🔒 Lock</button>
       </div>
     </div>
@@ -714,6 +715,13 @@
       a.href = URL.createObjectURL(blob);
       a.download = 'bhc-analytics-' + new Date().toISOString().split('T')[0] + '.json';
       a.click();
+    }
+
+    function resetAnalytics() {
+      if (confirm('⚠️ Reset all analytics data? This clears page views, clicks, and traffic sources.\n\nLeads will be kept.\n\nThis cannot be undone.')) {
+        localStorage.removeItem(STORAGE_KEY);
+        renderDashboard();
+      }
     }
 
     // Chart instances for cleanup
