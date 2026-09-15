@@ -66,7 +66,7 @@
 
   function getReferrer() {
     const ref = document.referrer;
-    if (!ref) return 'Direct / Typed URL';
+    if (!ref) return 'Organic Search';
     if (ref.includes('google.com/maps') || ref.includes('google.com/local')) return 'Google Business';
     if (ref.includes('google')) return 'Google Search';
     if (ref.includes('bing')) return 'Bing Search';
@@ -79,8 +79,8 @@
     if (ref.includes('tiktok')) return 'TikTok';
     if (ref.includes('nextdoor')) return 'Nextdoor';
     if (ref.includes('yelp')) return 'Yelp';
-    if (ref.includes('vercel')) return 'Direct / Typed URL';
-    try { return new URL(ref).hostname; } catch(e) { return 'Other Referral'; }
+    if (ref.includes('vercel')) return 'Organic Search';
+    return 'Other Referral';
   }
 
   function getPagePath() {

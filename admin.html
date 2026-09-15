@@ -810,21 +810,22 @@
     }
 
     function renderDevicesChart(d) {
-      var devices = d.devices || {};
-      var sorted = Object.entries(devices).sort(function(a, b) { return b[1] - a[1]; });
-      var total = sorted.reduce(function(sum, e) { return sum + e[1]; }, 0) || 1;
       var el = document.getElementById('devices-bars');
-
+      var allDevices = ['Mobile', 'Desktop', 'Tablet'];
       var icons = { 'Mobile': '📱', 'Desktop': '💻', 'Tablet': '📟' };
       var colors = { 'Mobile': '#0a84ff', 'Desktop': '#30d158', 'Tablet': '#bf5af2' };
 
-      if (sorted.length === 0) {
-        el.innerHTML = '<div class="empty-state"><div class="empty-state__icon">📱</div><div class="empty-state__title">No device data yet</div></div>';
-        return;
-      }
+      // Merge real data onto defaults
+      var devices = {};
+      allDevices.forEach(function(k) { devices[k] = 0; });
+      var raw = d.devices || {};
+      Object.keys(raw).forEach(function(k) { devices[k] = (devices[k] || 0) + raw[k]; });
 
-      el.innerHTML = sorted.map(function(e) {
-        var pct = Math.round((e[1] / total) * 100);
+      var entries = allDevices.map(function(k) { return [k, devices[k]]; });
+      var total = entries.reduce(function(sum, e) { return sum + e[1]; }, 0) || 1;
+
+      el.innerHTML = entries.map(function(e) {
+        var pct = total > 0 ? Math.round((e[1] / total) * 100) : 0;
         var icon = icons[e[0]] || '🖥️';
         var color = colors[e[0]] || 'var(--accent)';
         return '<div style="margin-bottom: 1rem;">' +
@@ -840,39 +841,54 @@
     }
 
     function renderReferrersChart(d) {
-      var refs = d.referrers || {};
-      var sorted = Object.entries(refs).sort(function(a, b) { return b[1] - a[1]; });
-      var total = sorted.reduce(function(sum, e) { return sum + e[1]; }, 0) || 1;
       var el = document.getElementById('referrers-bars');
-
+      var allSources = [
+        'Google Search', 'Google Business', 'Organic Search',
+        'Bing Search', 'Facebook', 'Instagram',
+        'YouTube', 'Twitter / X', 'TikTok',
+        'Yelp', 'Nextdoor', 'Other Referral'
+      ];
       var icons = {
-        'Google Search': '🔍', 'Google Business': '📍', 'Bing Search': '🔎',
-        'Yahoo Search': '🔎', 'DuckDuckGo': '🦆', 'Facebook': '👤',
-        'Instagram': '📸', 'Twitter / X': '🐦', 'YouTube': '▶️',
-        'TikTok': '🎵', 'Nextdoor': '🏘️', 'Yelp': '⭐',
-        'Direct / Typed URL': '🔗', 'Other Referral': '🌐'
+        'Google Search': '🔍', 'Google Business': '📍', 'Organic Search': '🌿',
+        'Bing Search': '🔎', 'Facebook': '👤', 'Instagram': '📸',
+        'YouTube': '▶️', 'Twitter / X': '🐦', 'TikTok': '🎵',
+        'Yelp': '⭐', 'Nextdoor': '🏘️', 'Other Referral': '🌐'
       };
       var colors = {
-        'Google Search': '#30d158', 'Google Business': '#ffd60a', 'Bing Search': '#64d2ff',
-        'Yahoo Search': '#bf5af2', 'DuckDuckGo': '#ff9f0a', 'Facebook': '#0a84ff',
-        'Instagram': '#ff375f', 'Twitter / X': '#64d2ff', 'YouTube': '#ff453a',
-        'TikTok': '#ff375f', 'Nextdoor': '#30d158', 'Yelp': '#ff453a',
-        'Direct / Typed URL': '#8e8e93', 'Other Referral': '#8e8e93'
+        'Google Search': '#30d158', 'Google Business': '#ffd60a', 'Organic Search': '#0a84ff',
+        'Bing Search': '#64d2ff', 'Facebook': '#0a84ff', 'Instagram': '#ff375f',
+        'YouTube': '#ff453a', 'Twitter / X': '#64d2ff', 'TikTok': '#ff375f',
+        'Yelp': '#ff453a', 'Nextdoor': '#30d158', 'Other Referral': '#8e8e93'
       };
 
-      if (sorted.length === 0) {
-        el.innerHTML = '<div class="empty-state"><div class="empty-state__icon">🌐</div><div class="empty-state__title">No traffic data yet</div></div>';
-        return;
-      }
+      // Merge real data onto defaults
+      var refs = {};
+      allSources.forEach(function(k) { refs[k] = 0; });
+      var raw = d.referrers || {};
+      Object.keys(raw).forEach(function(k) {
+        if (refs.hasOwnProperty(k)) {
+          refs[k] += raw[k];
+        } else {
+          refs['Other Referral'] += raw[k];
+        }
+      });
 
-      el.innerHTML = sorted.map(function(e) {
-        var pct = Math.round((e[1] / total) * 100);
-        var icon = icons[e[0]] || '🌐';
-        var color = colors[e[0]] || 'var(--accent)';
+      // Sort: sources with data first, then zeroes in original order
+      var withData = allSources.filter(function(k) { return refs[k] > 0; }).sort(function(a, b) { return refs[b] - refs[a]; });
+      var withoutData = allSources.filter(function(k) { return refs[k] === 0; });
+      var ordered = withData.concat(withoutData);
+
+      var total = ordered.reduce(function(sum, k) { return sum + refs[k]; }, 0) || 1;
+
+      el.innerHTML = ordered.map(function(k) {
+        var count = refs[k];
+        var pct = count > 0 ? Math.round((count / total) * 100) : 0;
+        var icon = icons[k] || '🌐';
+        var color = colors[k] || 'var(--accent)';
         return '<div style="margin-bottom: 1rem;">' +
           '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">' +
-            '<span style="font-weight:600;font-size:0.9rem;">' + icon + ' ' + e[0] + '</span>' +
-            '<span style="color:var(--text-secondary);font-size:0.8rem;">' + e[1] + ' <span style="color:' + color + ';font-weight:700;">(' + pct + '%)</span></span>' +
+            '<span style="font-weight:600;font-size:0.9rem;">' + icon + ' ' + k + '</span>' +
+            '<span style="color:var(--text-secondary);font-size:0.8rem;">' + count + ' <span style="color:' + (count > 0 ? color : 'var(--text-secondary)') + ';font-weight:700;">(' + pct + '%)</span></span>' +
           '</div>' +
           '<div style="width:100%;height:8px;background:var(--border);border-radius:4px;overflow:hidden;">' +
             '<div style="width:' + pct + '%;height:100%;background:' + color + ';border-radius:4px;transition:width 0.6s ease;"></div>' +
