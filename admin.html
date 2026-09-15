@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin Dashboard | Bristol Hilltop Camping</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #000000;
+      --card: #1c1c1e;
+      --card-hover: #2c2c2e;
+      --border: #38383a;
+      --text: #ffffff;
+      --text-secondary: #8e8e93;
+      --accent: #0a84ff;
+      --green: #30d158;
+      --orange: #ff9f0a;
+      --red: #ff453a;
+      --purple: #bf5af2;
+      --pink: #ff375f;
+      --teal: #64d2ff;
+      --yellow: #ffd60a;
+      --radius: 16px;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* --- PIN GATE --- */
+    #pin-gate {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 1.5rem;
+    }
+
+    #pin-gate.hidden { display: none; }
+
+    .pin-logo { font-size: 3rem; }
+    .pin-title { font-size: 1.5rem; font-weight: 700; }
+    .pin-subtitle { color: var(--text-secondary); font-size: 0.9rem; }
+
+    .pin-dots {
+      display: flex; gap: 1rem; margin: 1rem 0;
+    }
+
+    .pin-dot {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      border: 2px solid var(--text-secondary);
+      transition: all 0.2s;
+    }
+
+    .pin-dot.filled {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .pin-dot.error {
+      background: var(--red);
+      border-color: var(--red);
+      animation: shake 0.4s;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+
+    .pin-keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 80px);
+      gap: 12px;
+      margin-top: 1rem;
+    }
+
+    .pin-key {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 1.75rem;
+      font-weight: 500;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .pin-key:hover { background: var(--card-hover); }
+    .pin-key:active { background: var(--accent); transform: scale(0.95); }
+    .pin-key.empty { visibility: hidden; }
+    .pin-key.delete { font-size: 1rem; }
+
+    .pin-error-msg {
+      color: var(--red);
+      font-size: 0.85rem;
+      min-height: 1.2em;
+    }
+
+    /* --- DASHBOARD --- */
+    #dashboard { display: none; }
+    #dashboard.visible { display: block; }
+
+    .dash-header {
+      padding: 1.5rem 1.5rem 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .dash-header h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+    }
+
+    .dash-header-actions {
+      display: flex; gap: 0.5rem;
+    }
+
+    .dash-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text-secondary);
+      font-family: var(--font);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .dash-btn:hover { background: var(--card-hover); color: var(--text); }
+    .dash-btn.danger { border-color: var(--red); color: var(--red); }
+    .dash-btn.danger:hover { background: var(--red); color: white; }
+
+    .dash-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0.5rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+    }
+
+    .dash-tab {
+      padding: 0.75rem 1.25rem;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-family: var(--font);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .dash-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .dash-tab:hover:not(.active) { color: var(--text); }
+
+    /* Panels */
+    .dash-panel { display: none; padding: 1.5rem; }
+    .dash-panel.active { display: block; }
+
+    /* Stat Cards */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border: 1px solid var(--border);
+    }
+
+    .stat-card__label {
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-card__value {
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .stat-card__sub {
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      margin-top: 0.35rem;
+    }
+
+    .stat-card--calls .stat-card__value { color: var(--green); }
+    .stat-card--views .stat-card__value { color: var(--accent); }
+    .stat-card--clicks .stat-card__value { color: var(--orange); }
+    .stat-card--leads .stat-card__value { color: var(--purple); }
+    .stat-card--texts .stat-card__value { color: var(--teal); }
+    .stat-card--pages .stat-card__value { color: var(--yellow); }
+
+    /* Chart Cards */
+    .chart-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+
+    .chart-card__title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .chart-card canvas { max-height: 280px; }
+
+    /* Table styles */
+    .dash-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .dash-table th {
+      text-align: left;
+      color: var(--text-secondary);
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dash-table td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid rgba(56,56,58,0.5);
+      vertical-align: middle;
+    }
+
+    .dash-table tr:hover td { background: rgba(255,255,255,0.03); }
+
+    /* Click bar */
+    .click-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .click-bar__label {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .click-bar__track {
+      width: 120px;
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .click-bar__fill {
+      height: 100%;
+      border-radius: 3px;
+      background: var(--accent);
+      transition: width 0.6s ease;
+    }
+
+    .click-bar__count {
+      font-weight: 700;
+      min-width: 30px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* Lead cards */
+    .lead-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border: 1px solid var(--border);
+      margin-bottom: 0.75rem;
+      transition: border-color 0.2s;
+    }
+
+    .lead-card:hover { border-color: var(--accent); }
+
+    .lead-card__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .lead-card__name {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .lead-card__badge {
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .lead-card__badge--new { background: var(--green); color: #000; }
+    .lead-card__badge--contacted { background: var(--accent); color: #fff; }
+    .lead-card__badge--closed { background: var(--text-secondary); color: #000; }
+
+    .lead-card__detail {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .lead-card__actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .lead-card__actions .dash-btn { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+
+    /* Sessions list */
+    .session-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(56,56,58,0.3);
+      font-size: 0.85rem;
+    }
+
+    .session-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      flex-shrink: 0;
+    }
+
+    .session-page { flex: 1; font-weight: 500; }
+    .session-meta { color: var(--text-secondary); font-size: 0.75rem; text-align: right; }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-secondary);
+    }
+
+    .empty-state__icon { font-size: 3rem; margin-bottom: 1rem; }
+    .empty-state__title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text); }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .stat-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-card__value { font-size: 1.5rem; }
+      .dash-header h1 { font-size: 1.3rem; }
+      .click-bar__track { width: 60px; }
+      .pin-keypad { grid-template-columns: repeat(3, 70px); }
+      .pin-key { width: 70px; height: 70px; font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       PIN GATE
+       ============================================ -->
+  <div id="pin-gate">
+    <div class="pin-logo">🏕️</div>
+    <div class="pin-title">Admin Access</div>
+    <div class="pin-subtitle">Enter 4-digit PIN</div>
+    <div class="pin-dots">
+      <div class="pin-dot" id="dot-0"></div>
+      <div class="pin-dot" id="dot-1"></div>
+      <div class="pin-dot" id="dot-2"></div>
+      <div class="pin-dot" id="dot-3"></div>
+    </div>
+    <div class="pin-error-msg" id="pin-error"></div>
+    <div class="pin-keypad">
+      <button class="pin-key" onclick="pinPress('1')">1</button>
+      <button class="pin-key" onclick="pinPress('2')">2</button>
+      <button class="pin-key" onclick="pinPress('3')">3</button>
+      <button class="pin-key" onclick="pinPress('4')">4</button>
+      <button class="pin-key" onclick="pinPress('5')">5</button>
+      <button class="pin-key" onclick="pinPress('6')">6</button>
+      <button class="pin-key" onclick="pinPress('7')">7</button>
+      <button class="pin-key" onclick="pinPress('8')">8</button>
+      <button class="pin-key" onclick="pinPress('9')">9</button>
+      <button class="pin-key empty"></button>
+      <button class="pin-key" onclick="pinPress('0')">0</button>
+      <button class="pin-key delete" onclick="pinDelete()">⌫</button>
+    </div>
+  </div>
+
+  <!-- ============================================
+       DASHBOARD
+       ============================================ -->
+  <div id="dashboard">
+    <div class="dash-header">
+      <h1>📊 Bristol Hilltop Admin</h1>
+      <div class="dash-header-actions">
+        <button class="dash-btn" onclick="refreshDash()">↻ Refresh</button>
+        <button class="dash-btn" onclick="exportData()">↓ Export</button>
+        <button class="dash-btn danger" onclick="lockDash()">🔒 Lock</button>
+      </div>
+    </div>
+
+    <div class="dash-tabs">
+      <button class="dash-tab active" onclick="switchTab('overview')">Overview</button>
+      <button class="dash-tab" onclick="switchTab('clicks')">Click Map</button>
+      <button class="dash-tab" onclick="switchTab('leads')">Leads</button>
+      <button class="dash-tab" onclick="switchTab('sessions')">Sessions</button>
+    </div>
+
+    <!-- OVERVIEW PANEL -->
+    <div class="dash-panel active" id="panel-overview">
+      <div class="stat-grid">
+        <div class="stat-card stat-card--views">
+          <div class="stat-card__label">Total Views</div>
+          <div class="stat-card__value" id="s-views">0</div>
+          <div class="stat-card__sub">All time</div>
+        </div>
+        <div class="stat-card stat-card--calls">
+          <div class="stat-card__label">📞 Phone Calls</div>
+          <div class="stat-card__value" id="s-calls">0</div>
+          <div class="stat-card__sub">Call button taps</div>
+        </div>
+        <div class="stat-card stat-card--texts">
+          <div class="stat-card__label">💬 Text Clicks</div>
+          <div class="stat-card__value" id="s-texts">0</div>
+          <div class="stat-card__sub">SMS taps</div>
+        </div>
+        <div class="stat-card stat-card--clicks">
+          <div class="stat-card__label">Total Clicks</div>
+          <div class="stat-card__value" id="s-clicks">0</div>
+          <div class="stat-card__sub">Tracked interactions</div>
+        </div>
+        <div class="stat-card stat-card--leads">
+          <div class="stat-card__label">Leads</div>
+          <div class="stat-card__value" id="s-leads">0</div>
+          <div class="stat-card__sub">Form submissions</div>
+        </div>
+        <div class="stat-card stat-card--pages">
+          <div class="stat-card__label">Pages Tracked</div>
+          <div class="stat-card__value" id="s-pages">0</div>
+          <div class="stat-card__sub">Unique paths</div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div class="chart-card" style="grid-column: 1 / -1;">
+          <div class="chart-card__title">📈 Daily Views & Calls</div>
+          <canvas id="chart-daily"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card__title">📱 Device Breakdown</div>
+          <canvas id="chart-devices"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card__title">🌐 Traffic Sources</div>
+          <canvas id="chart-referrers"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card__title">⏰ Views by Hour of Day</div>
+        <canvas id="chart-hourly"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card__title">📄 Top Pages</div>
+        <div id="top-pages"></div>
+      </div>
+    </div>
+
+    <!-- CLICK MAP PANEL -->
+    <div class="dash-panel" id="panel-clicks">
+      <div class="chart-card">
+        <div class="chart-card__title">🖱️ Click Map — What Visitors Are Tapping</div>
+        <div id="click-map-list"></div>
+      </div>
+    </div>
+
+    <!-- LEADS PANEL -->
+    <div class="dash-panel" id="panel-leads">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h2 style="font-size: 1.25rem;">📋 Lead Submissions</h2>
+        <span style="color: var(--text-secondary); font-size: 0.85rem;" id="lead-count"></span>
+      </div>
+      <div id="leads-list"></div>
+    </div>
+
+    <!-- SESSIONS PANEL -->
+    <div class="dash-panel" id="panel-sessions">
+      <div class="chart-card">
+        <div class="chart-card__title">🕐 Recent Visitor Sessions</div>
+        <div id="sessions-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============================================
+    // PIN CODE SYSTEM
+    // ============================================
+    const CORRECT_PIN = '1234';
+    let currentPin = '';
+
+    function pinPress(digit) {
+      if (currentPin.length >= 4) return;
+      currentPin += digit;
+      updateDots();
+
+      if (currentPin.length === 4) {
+        setTimeout(function() {
+          if (currentPin === CORRECT_PIN) {
+            document.getElementById('pin-gate').classList.add('hidden');
+            document.getElementById('dashboard').classList.add('visible');
+            renderDashboard();
+          } else {
+            document.getElementById('pin-error').textContent = 'Incorrect PIN';
+            document.querySelectorAll('.pin-dot').forEach(function(d) { d.classList.add('error'); });
+            setTimeout(function() {
+              currentPin = '';
+              updateDots();
+              document.getElementById('pin-error').textContent = '';
+            }, 800);
+          }
+        }, 200);
+      }
+    }
+
+    function pinDelete() {
+      currentPin = currentPin.slice(0, -1);
+      updateDots();
+      document.getElementById('pin-error').textContent = '';
+    }
+
+    function updateDots() {
+      for (var i = 0; i < 4; i++) {
+        var dot = document.getElementById('dot-' + i);
+        dot.classList.remove('filled', 'error');
+        if (i < currentPin.length) dot.classList.add('filled');
+      }
+    }
+
+    // Keyboard support
+    document.addEventListener('keydown', function(e) {
+      if (!document.getElementById('pin-gate').classList.contains('hidden')) {
+        if (e.key >= '0' && e.key <= '9') pinPress(e.key);
+        if (e.key === 'Backspace') pinDelete();
+      }
+    });
+
+    // ============================================
+    // DASHBOARD
+    // ============================================
+    const STORAGE_KEY = 'bhc_analytics';
+    const LEADS_KEY = 'bhc_leads';
+
+    function getData() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) { return {}; }
+    }
+
+    function getLeads() {
+      try { return JSON.parse(localStorage.getItem(LEADS_KEY)) || []; } catch(e) { return []; }
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.dash-tab').forEach(function(t) { t.classList.remove('active'); });
+      document.querySelectorAll('.dash-panel').forEach(function(p) { p.classList.remove('active'); });
+      event.target.classList.add('active');
+      document.getElementById('panel-' + tab).classList.add('active');
+    }
+
+    function lockDash() {
+      document.getElementById('dashboard').classList.remove('visible');
+      document.getElementById('pin-gate').classList.remove('hidden');
+      currentPin = '';
+      updateDots();
+    }
+
+    function refreshDash() { renderDashboard(); }
+
+    function exportData() {
+      var data = getData();
+      var leads = getLeads();
+      var blob = new Blob([JSON.stringify({ analytics: data, leads: leads }, null, 2)], { type: 'application/json' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'bhc-analytics-' + new Date().toISOString().split('T')[0] + '.json';
+      a.click();
+    }
+
+    // Chart instances for cleanup
+    let charts = {};
+
+    function destroyCharts() {
+      Object.values(charts).forEach(function(c) { if (c) c.destroy(); });
+      charts = {};
+    }
+
+    // Chart.js global dark theme
+    Chart.defaults.color = '#8e8e93';
+    Chart.defaults.borderColor = 'rgba(56,56,58,0.5)';
+    Chart.defaults.font.family = "'Inter', sans-serif";
+
+    function renderDashboard() {
+      destroyCharts();
+      var d = getData();
+      var leads = getLeads();
+
+      // Stat cards
+      document.getElementById('s-views').textContent = (d.totalViews || 0).toLocaleString();
+      document.getElementById('s-calls').textContent = (d.totalCalls || 0).toLocaleString();
+      document.getElementById('s-texts').textContent = (d.totalTexts || 0).toLocaleString();
+      document.getElementById('s-clicks').textContent = (d.totalClicks || 0).toLocaleString();
+      document.getElementById('s-leads').textContent = (d.totalLeads || 0).toLocaleString();
+      document.getElementById('s-pages').textContent = Object.keys(d.pageViews || {}).length;
+
+      // Daily views chart
+      renderDailyChart(d);
+      renderDevicesChart(d);
+      renderReferrersChart(d);
+      renderHourlyChart(d);
+      renderTopPages(d);
+      renderClickMap(d);
+      renderLeads(leads);
+      renderSessions(d);
+    }
+
+    function renderDailyChart(d) {
+      var daily = d.dailyViews || {};
+      var calls = d.dailyCalls || {};
+      var labels = Object.keys(daily).sort().slice(-14);
+      if (labels.length === 0) labels = [new Date().toISOString().split('T')[0]];
+
+      charts.daily = new Chart(document.getElementById('chart-daily'), {
+        type: 'line',
+        data: {
+          labels: labels.map(function(l) { return l.substring(5); }),
+          datasets: [
+            {
+              label: 'Page Views',
+              data: labels.map(function(l) { return daily[l] || 0; }),
+              borderColor: '#0a84ff',
+              backgroundColor: 'rgba(10,132,255,0.1)',
+              fill: true,
+              tension: 0.4,
+              borderWidth: 2.5,
+              pointRadius: 4,
+              pointBackgroundColor: '#0a84ff'
+            },
+            {
+              label: 'Call Clicks',
+              data: labels.map(function(l) { return calls[l] || 0; }),
+              borderColor: '#30d158',
+              backgroundColor: 'rgba(48,209,88,0.1)',
+              fill: true,
+              tension: 0.4,
+              borderWidth: 2.5,
+              pointRadius: 4,
+              pointBackgroundColor: '#30d158'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { labels: { usePointStyle: true, padding: 20 } } },
+          scales: {
+            y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: 'rgba(56,56,58,0.3)' } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    function renderDevicesChart(d) {
+      var devices = d.devices || {};
+      var labels = Object.keys(devices);
+      var colors = ['#0a84ff', '#ff9f0a', '#bf5af2'];
+
+      if (labels.length === 0) { labels = ['No data']; devices = { 'No data': 0 }; }
+
+      charts.devices = new Chart(document.getElementById('chart-devices'), {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{ data: labels.map(function(l) { return devices[l]; }), backgroundColor: colors, borderWidth: 0 }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } } },
+          cutout: '65%'
+        }
+      });
+    }
+
+    function renderReferrersChart(d) {
+      var refs = d.referrers || {};
+      var labels = Object.keys(refs);
+      var colors = ['#30d158', '#ff453a', '#ffd60a', '#64d2ff', '#ff375f', '#bf5af2', '#ff9f0a'];
+
+      if (labels.length === 0) { labels = ['No data']; refs = { 'No data': 0 }; }
+
+      charts.referrers = new Chart(document.getElementById('chart-referrers'), {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{ data: labels.map(function(l) { return refs[l]; }), backgroundColor: colors, borderWidth: 0 }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } } },
+          cutout: '65%'
+        }
+      });
+    }
+
+    function renderHourlyChart(d) {
+      var hourly = d.hourlyViews || {};
+      var labels = [];
+      var data = [];
+      for (var i = 0; i < 24; i++) {
+        var h = String(i);
+        labels.push(i === 0 ? '12a' : i < 12 ? i + 'a' : i === 12 ? '12p' : (i-12) + 'p');
+        data.push(hourly[h] || 0);
+      }
+
+      charts.hourly = new Chart(document.getElementById('chart-hourly'), {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Views',
+            data: data,
+            backgroundColor: 'rgba(10,132,255,0.6)',
+            borderRadius: 4,
+            borderSkipped: false
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: 'rgba(56,56,58,0.3)' } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    function renderTopPages(d) {
+      var pages = d.pageViews || {};
+      var sorted = Object.entries(pages).sort(function(a, b) { return b[1] - a[1]; }).slice(0, 10);
+      var maxVal = sorted.length ? sorted[0][1] : 1;
+
+      var el = document.getElementById('top-pages');
+      if (sorted.length === 0) {
+        el.innerHTML = '<div class="empty-state"><div class="empty-state__icon">📄</div><div class="empty-state__title">No page data yet</div><p>Visit the site to start tracking.</p></div>';
+        return;
+      }
+
+      el.innerHTML = sorted.map(function(p) {
+        var pct = Math.round((p[1] / maxVal) * 100);
+        return '<div class="click-bar" style="padding:0.5rem 0;"><span class="click-bar__label">' + p[0] + '</span><div class="click-bar__track"><div class="click-bar__fill" style="width:' + pct + '%;background:var(--yellow);"></div></div><span class="click-bar__count">' + p[1] + '</span></div>';
+      }).join('');
+    }
+
+    function renderClickMap(d) {
+      var clicks = d.clickMap || {};
+      var sorted = Object.entries(clicks).sort(function(a, b) { return b[1] - a[1]; }).slice(0, 20);
+      var maxVal = sorted.length ? sorted[0][1] : 1;
+
+      var el = document.getElementById('click-map-list');
+      if (sorted.length === 0) {
+        el.innerHTML = '<div class="empty-state"><div class="empty-state__icon">🖱️</div><div class="empty-state__title">No clicks tracked yet</div><p>Interact with the site to see what visitors are clicking.</p></div>';
+        return;
+      }
+
+      el.innerHTML = sorted.map(function(c) {
+        var pct = Math.round((c[1] / maxVal) * 100);
+        var color = c[0].startsWith('📞') ? 'var(--green)' : c[0].startsWith('💬') ? 'var(--teal)' : 'var(--accent)';
+        return '<div class="click-bar" style="padding:0.6rem 0;"><span class="click-bar__label">' + c[0] + '</span><div class="click-bar__track"><div class="click-bar__fill" style="width:' + pct + '%;background:' + color + ';"></div></div><span class="click-bar__count">' + c[1] + '</span></div>';
+      }).join('');
+    }
+
+    function renderLeads(leads) {
+      var el = document.getElementById('leads-list');
+      document.getElementById('lead-count').textContent = leads.length + ' total';
+
+      if (leads.length === 0) {
+        el.innerHTML = '<div class="empty-state"><div class="empty-state__icon">📋</div><div class="empty-state__title">No leads yet</div><p>When visitors submit the contact form, they\'ll appear here.</p></div>';
+        return;
+      }
+
+      el.innerHTML = leads.map(function(l) {
+        var badgeClass = l.status === 'new' ? 'new' : l.status === 'contacted' ? 'contacted' : 'closed';
+        var time = new Date(l.time);
+        var timeStr = time.toLocaleDateString() + ' ' + time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        return '<div class="lead-card">' +
+          '<div class="lead-card__header">' +
+            '<span class="lead-card__name">' + l.name + '</span>' +
+            '<span class="lead-card__badge lead-card__badge--' + badgeClass + '">' + l.status + '</span>' +
+          '</div>' +
+          '<div class="lead-card__detail">📞 <a href="tel:' + l.phone + '" style="color:var(--green);">' + l.phone + '</a></div>' +
+          (l.email ? '<div class="lead-card__detail">📧 ' + l.email + '</div>' : '') +
+          '<div class="lead-card__detail">🏷️ ' + (l.interest || 'General') + '</div>' +
+          (l.message ? '<div class="lead-card__detail">💬 ' + l.message + '</div>' : '') +
+          '<div class="lead-card__detail" style="font-size:0.75rem;margin-top:0.5rem;">🕐 ' + timeStr + '</div>' +
+          '<div class="lead-card__actions">' +
+            '<button class="dash-btn" onclick="updateLeadStatus(' + l.id + ',\'contacted\')">✅ Contacted</button>' +
+            '<button class="dash-btn" onclick="updateLeadStatus(' + l.id + ',\'closed\')">🏁 Closed</button>' +
+            '<a href="tel:' + l.phone + '" class="dash-btn" style="text-decoration:none;color:var(--green);border-color:var(--green);">📞 Call</a>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    function updateLeadStatus(id, status) {
+      var leads = getLeads();
+      leads = leads.map(function(l) { if (l.id === id) l.status = status; return l; });
+      try { localStorage.setItem(LEADS_KEY, JSON.stringify(leads)); } catch(e) {}
+      renderLeads(leads);
+    }
+
+    function renderSessions(d) {
+      var sessions = d.sessions || [];
+      var el = document.getElementById('sessions-list');
+
+      if (sessions.length === 0) {
+        el.innerHTML = '<div class="empty-state"><div class="empty-state__icon">🕐</div><div class="empty-state__title">No sessions yet</div><p>Visit the site to start tracking sessions.</p></div>';
+        return;
+      }
+
+      el.innerHTML = sessions.slice(0, 50).map(function(s) {
+        var time = new Date(s.time);
+        var timeStr = time.toLocaleDateString() + ' ' + time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        return '<div class="session-item">' +
+          '<div class="session-dot"></div>' +
+          '<span class="session-page">' + s.page + '</span>' +
+          '<span class="session-meta">' + s.device + ' · ' + s.referrer + '<br>' + timeStr + '</span>' +
+        '</div>';
+      }).join('');
+    }
+  </script>
+</body>
+</html>
