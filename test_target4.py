@@ -17,7 +17,7 @@ sec1 = """
       <section style="margin-top: 2.5rem;">
         <h2>🏁 The Legendary Bristol Tailgate Culture: Why It's the Best in NASCAR</h2>
         <p>
-          Tailgating happens across NASCAR, but Bristol's culture is celebrated as the best in motorsport. Thunder Valley sits carved directly into an Appalachian mountain bowl, amplifying cheers, revving engines, and hardwood smoke across the ridges.
+          Tailgating happens across NASCAR, but Bristol's culture is celebrated as the best in motorsport. Thunder Valley sits carved into an Appalachian mountain bowl, amplifying cheers, revving engines, and hardwood smoke across the ridges.
         </p>
         <p>
           Fans celebrate from Thursday through Sunday. Rivalries are intense on the high banks, but mountain hospitality rules the campground:
@@ -101,10 +101,10 @@ sec3 = """
           <div class="recipe-meta">
             <span><strong>Prep:</strong> 15 Mins</span>
             <span><strong>Smoke:</strong> 8–10 Hrs at 225°F</span>
-            <span><strong>Feeds:</strong> 12–15 Fans</span>
+            <span><strong>Feeds:</strong> 12–15</span>
           </div>
           <p>
-            Rub an 8-lb pork butt with mustard and brown-sugar rub. Smoke over hickory at 225°F for 5 hours. Spritz with apple cider vinegar, wrap in foil with butter and brown sugar, and cook at 250°F until tender at 203°F. Rest in a cooler for 2 hours before pulling onto brioche buns with slaw.
+            Coat an 8-lb pork butt in yellow mustard and brown-sugar rub. Smoke over hickory at 225°F for 5 hours. Spritz with apple cider vinegar, wrap in heavy foil with butter and brown sugar, and cook at 250°F until probe-tender (203°F). Rest 2 hours in a cooler, then pull onto brioche buns with slaw.
           </p>
         </div>
 
@@ -114,10 +114,10 @@ sec3 = """
           <div class="recipe-meta">
             <span><strong>Prep:</strong> 15 Mins</span>
             <span><strong>Smoke:</strong> 6 Hrs at 225°F</span>
-            <span><strong>Feeds:</strong> 4–6 Campers</span>
+            <span><strong>Feeds:</strong> 4–6</span>
           </div>
           <p>
-            Season 2 racks of spare ribs with pork rub. Smoke meat-side up at 225°F with applewood for 3 hours. Wrap tightly in foil with butter, brown sugar, and honey for 2 hours. Unwrap, brush with sweet barbecue sauce, and cook 1 final hour until the glaze caramelizes into a gleaming lacquer.
+            Season spare ribs with sweet pork rub. Smoke at 225°F with applewood for 3 hours. Wrap in foil with butter, brown sugar, and honey for 2 hours. Unwrap, brush with sweet barbecue sauce, and cook 1 final hour until the glaze bubbles into a glossy lacquer.
           </p>
         </div>
 
@@ -130,7 +130,7 @@ sec3 = """
             <span><strong>Feeds:</strong> 16–20 Sliders</span>
           </div>
           <p>
-            Season a trimmed brisket with coarse salt and pepper. Smoke overnight at 225°F over oak or hickory. Wrap in butcher paper at 165°F and cook until probe-tender (202°F). Rest 2 to 3 hours in a cooler, slice thin, and serve on sweet rolls with slaw and pickled jalapeños.
+            Season a trimmed brisket with coarse salt and black pepper. Smoke overnight at 225°F over oak or hickory. Wrap in butcher paper at 165°F and cook until probe-tender (202°F). Rest 2 hours in a cooler, slice thin, and serve on sweet rolls with slaw and pickled jalapeños.
           </p>
         </div>
 
@@ -140,10 +140,10 @@ sec3 = """
           <div class="recipe-meta">
             <span><strong>Prep:</strong> 10 Mins</span>
             <span><strong>Cook:</strong> 1.5 Hrs at 250°F / 400°F</span>
-            <span><strong>Feeds:</strong> 6–8 Fans</span>
+            <span><strong>Feeds:</strong> 6–8</span>
           </div>
           <p>
-            Toss dried wings with baking powder and rub for crispy skin. Smoke at 250°F for 45 minutes, then crisp at 400°F for 30 minutes until blistered. Toss half in spicy Buffalo sauce and dunk the rest in creamy Alabama white barbecue sauce (mayo, cider vinegar, pepper, horseradish).
+            Toss dried chicken wings with baking powder and rub. Smoke at 250°F for 45 minutes, then crisp at 400°F for 30 minutes until golden. Toss half in spicy Buffalo sauce and dunk the remainder in tangy Alabama white sauce (mayo, vinegar, pepper, horseradish).
           </p>
         </div>
 
@@ -156,7 +156,7 @@ sec3 = """
             <span><strong>Feeds:</strong> 8–10 Slices</span>
           </div>
           <p>
-            Preheat a 10-inch cast iron skillet with bacon grease on your grill. Whisk 2 cups cornmeal mix, buttermilk, eggs, melted butter, honey, cheddar cheese, and diced jalapeño. Pour into the skillet and bake indirectly at 375°F for 30 minutes. Brush with honey butter before slicing.
+            Preheat a 10-inch cast iron skillet with bacon grease on your grill. Whisk 2 cups cornmeal mix, buttermilk, eggs, melted butter, honey, cheddar cheese, and diced jalapeño. Pour into the skillet and bake indirectly at 375°F for 30 minutes. Brush with honey butter before serving.
           </p>
         </div>
       </section>
@@ -176,17 +176,17 @@ sec4 = """
             <ul>
               <li><strong>Meat Cooler:</strong> Roto-molded cooler with block ice for raw meats.</li>
               <li><strong>Drink Cooler:</strong> Dedicated cooler for beers, soda, and water.</li>
-              <li><strong>Resting Cooler:</strong> Insulated cooler to hold smoked barbecue warm.</li>
-              <li><strong>Foil &amp; Tongs:</strong> Heavy 18-inch foil and long metal tongs for grates.</li>
+              <li><strong>Resting Cooler:</strong> Insulated cooler to hold barbecue warm.</li>
+              <li><strong>Foil &amp; Tongs:</strong> Heavy 18-inch foil and long tongs for hot grates.</li>
             </ul>
           </div>
 
           <div class="gear-card">
             <h4>⛺ Shelter &amp; Seating</h4>
             <ul>
-              <li><strong>Pop-Up Canopy:</strong> 10x10 frame with UV fabric for midday shade.</li>
+              <li><strong>Pop-Up Canopy:</strong> 10x10 frame with UV fabric for shade.</li>
               <li><strong>Leg Weights:</strong> Secure canopy legs against mountain gusts.</li>
-              <li><strong>Camp Chairs:</strong> Folding chairs with built-in cup holders.</li>
+              <li><strong>Camp Chairs:</strong> Folding chairs with cup holders and mesh.</li>
               <li><strong>Ground Mat:</strong> Breathable mat keeps dirt outside your camper.</li>
             </ul>
           </div>
@@ -197,7 +197,7 @@ sec4 = """
               <li><strong>Cornhole Boards:</strong> Regulation wood boards for tournaments.</li>
               <li><strong>Bluetooth Speaker:</strong> Rugged speaker for music and radio feeds.</li>
               <li><strong>Tailgate TV:</strong> Monitor for practice and qualifying broadcasts.</li>
-              <li><strong>String Lights:</strong> LED campsite lighting for safe evening cooking.</li>
+              <li><strong>String Lights:</strong> LED lighting for safe evening cooking.</li>
             </ul>
           </div>
 
@@ -225,30 +225,24 @@ sec5 = """
         <div class="timeline-block">
           <div class="timeline-badge">Thursday</div>
           <div class="timeline-body">
-            <h4>Arrival &amp; Basecamp Setup</h4>
-            <p>
-              Check in, level your camper, connect hookups, and roll out your awning. Grill burgers on the flat-top, then enjoy the Thursday night UNOH 200 Truck Series race.
-            </p>
+            <h4>Arrival &amp; Setup</h4>
+            <p>Check in, level your camper, connect hookups, and roll out your awning. Grill burgers on the flat-top, then enjoy the Thursday night Truck Series race.</p>
           </div>
         </div>
 
         <div class="timeline-block">
           <div class="timeline-badge">Friday AM</div>
           <div class="timeline-body">
-            <h4>Camp Breakfast &amp; Meat Rubbing</h4>
-            <p>
-              Cook bacon and eggs on the griddle. Trim briskets and pork butts, apply rubs, and keep meats chilled so seasonings cure deep before smoking.
-            </p>
+            <h4>Breakfast &amp; Meat Rubbing</h4>
+            <p>Cook bacon and eggs on the griddle. Trim briskets and pork butts, apply rubs, and keep meats chilled so seasonings cure deep before smoking.</p>
           </div>
         </div>
 
         <div class="timeline-block">
           <div class="timeline-badge">Friday PM</div>
           <div class="timeline-body">
-            <h4>Wings &amp; Overnight Pit Lighting</h4>
-            <p>
-              Smoke wings for happy hour and watch the Xfinity Series race. Before bed at 10:30 PM, light your smoker and put on pork or brisket for an overnight cook.
-            </p>
+            <h4>Wings &amp; Pit Lighting</h4>
+            <p>Smoke wings for happy hour and watch the Xfinity Series race. Before bed at 10:30 PM, light your smoker and put on pork or brisket for an overnight cook.</p>
           </div>
         </div>
 
@@ -256,39 +250,31 @@ sec5 = """
           <div class="timeline-badge">Saturday 8 AM</div>
           <div class="timeline-body">
             <h4>Meat Wrap &amp; Rib Cook</h4>
-            <p>
-              Wrap brisket or pork in butcher paper once the bark sets (~165°F). Put St. Louis ribs onto the smoker to begin their 3-2-1 cook.
-            </p>
+            <p>Wrap brisket or pork in butcher paper once the bark sets (~165°F). Put St. Louis ribs onto the smoker to begin their 3-2-1 cook.</p>
           </div>
         </div>
 
         <div class="timeline-block">
           <div class="timeline-badge">Saturday 2 PM</div>
           <div class="timeline-body">
-            <h4>Cooler Rest &amp; Cornbread Baking</h4>
-            <p>
-              Place probe-tender meats into a cooler to rest. Glaze ribs and bake skillet jalapeño cornbread on the grill.
-            </p>
+            <h4>Cooler Rest &amp; Cornbread</h4>
+            <p>Place probe-tender meats into an insulated cooler to rest. Glaze ribs and bake skillet jalapeño cornbread on the grill.</p>
           </div>
         </div>
 
         <div class="timeline-block">
           <div class="timeline-badge">Saturday 4 PM</div>
           <div class="timeline-body">
-            <h4>Pre-Race Feast &amp; Track Walk</h4>
-            <p>
-              Shred pork, slice brisket, and feast with friends. Pack track-approved soft coolers, then take the easy 15-minute downhill walk to BMS.
-            </p>
+            <h4>Pre-Race Feast &amp; Walk</h4>
+            <p>Shred pork, slice brisket, and feast with friends. Pack track-approved soft coolers, then take the easy 15-minute downhill walk to BMS.</p>
           </div>
         </div>
 
         <div class="timeline-block">
           <div class="timeline-badge">Saturday Night</div>
           <div class="timeline-body">
-            <h4>Post-Race Campfire Celebration</h4>
-            <p>
-              Stroll back to camp while highway traffic idles in gridlock. Stoke the campfire, toast s'mores, and rehash the race under the stars.
-            </p>
+            <h4>Campfire Celebration</h4>
+            <p>Stroll back to camp while highway traffic idles in gridlock. Stoke the campfire, toast s'mores, and rehash the race under the stars.</p>
           </div>
         </div>
       </section>
@@ -322,38 +308,38 @@ sec7 = """
       <section style="margin-top: 2.5rem;">
         <h2>🏟️ Race Day Food Policies at BMS: What You Can &amp; Can't Bring Inside</h2>
         <p>
-          Bristol Motor Speedway allows fans to bring food and drinks into the grandstands, subject to strict gate security rules:
+          Bristol Motor Speedway allows fans to bring food and drinks into the grandstands, subject to gate security rules:
         </p>
 
         <div style="overflow-x: auto; margin: 1.25rem 0;">
           <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.92rem; border: 1px solid var(--color-border); border-radius: 8px; background: #ffffff;">
             <thead>
               <tr style="background: var(--color-primary-dark); color: #ffffff;">
-                <th style="padding: 0.7rem 0.9rem;">Category</th>
-                <th style="padding: 0.7rem 0.9rem;">✅ Permitted at BMS</th>
-                <th style="padding: 0.7rem 0.9rem;">❌ Prohibited at Gates</th>
+                <th style="padding: 0.6rem 0.85rem;">Category</th>
+                <th style="padding: 0.6rem 0.85rem;">✅ Permitted at BMS</th>
+                <th style="padding: 0.6rem 0.85rem;">❌ Prohibited at Gates</th>
               </tr>
             </thead>
             <tbody>
               <tr style="border-bottom: 1px solid var(--color-border);">
-                <td style="padding: 0.7rem 0.9rem; font-weight: 700;">Coolers</td>
-                <td style="padding: 0.7rem 0.9rem;">One <strong>soft-sided cooler</strong> (max 14"x14"x14") with ice or freezer packs.</td>
-                <td style="padding: 0.7rem 0.9rem; color: #b91c1c;">Hard-sided plastic, styrofoam, or wheeled coolers.</td>
+                <td style="padding: 0.6rem 0.85rem; font-weight: 700;">Coolers</td>
+                <td style="padding: 0.6rem 0.85rem;">One <strong>soft-sided cooler</strong> (max 14"x14"x14") with ice packs.</td>
+                <td style="padding: 0.6rem 0.85rem; color: #b91c1c;">Hard plastic, styrofoam, or rolling coolers.</td>
               </tr>
               <tr style="border-bottom: 1px solid var(--color-border); background: #f9fafb;">
-                <td style="padding: 0.7rem 0.9rem; font-weight: 700;">Bags</td>
-                <td style="padding: 0.7rem 0.9rem;">One <strong>clear plastic tote</strong> (max 14"x14"x14") plus clutch purse (4.5"x6.5").</td>
-                <td style="padding: 0.7rem 0.9rem; color: #b91c1c;">Opaque backpacks, duffle bags, tinted totes.</td>
+                <td style="padding: 0.6rem 0.85rem; font-weight: 700;">Bags</td>
+                <td style="padding: 0.6rem 0.85rem;">One <strong>clear plastic tote</strong> (max 14"x14"x14") plus clutch (4.5"x6.5").</td>
+                <td style="padding: 0.6rem 0.85rem; color: #b91c1c;">Opaque backpacks, duffle bags, dark totes.</td>
               </tr>
               <tr style="border-bottom: 1px solid var(--color-border);">
-                <td style="padding: 0.7rem 0.9rem; font-weight: 700;">Beverages</td>
-                <td style="padding: 0.7rem 0.9rem;">Factory-sealed water, soda cans, energy drinks, and <strong>canned beer</strong>.</td>
-                <td style="padding: 0.7rem 0.9rem; color: #b91c1c;">Glass bottles of any kind, hard liquor, open cups.</td>
+                <td style="padding: 0.6rem 0.85rem; font-weight: 700;">Beverages</td>
+                <td style="padding: 0.6rem 0.85rem;">Sealed water, soda cans, energy drinks, and <strong>canned beer</strong>.</td>
+                <td style="padding: 0.6rem 0.85rem; color: #b91c1c;">Glass bottles, hard liquor, open containers.</td>
               </tr>
               <tr style="background: #f9fafb;">
-                <td style="padding: 0.7rem 0.9rem; font-weight: 700;">Food</td>
-                <td style="padding: 0.7rem 0.9rem;">Foil-wrapped sandwiches, pulled pork sliders, snacks, chips, cookies.</td>
-                <td style="padding: 0.7rem 0.9rem; color: #b91c1c;">Open cooking elements, unbagged messy stews.</td>
+                <td style="padding: 0.6rem 0.85rem; font-weight: 700;">Food</td>
+                <td style="padding: 0.6rem 0.85rem;">Foil-wrapped sandwiches, brisket sliders, snacks, chips.</td>
+                <td style="padding: 0.6rem 0.85rem; color: #b91c1c;">Open cooking elements, loose unbagged stews.</td>
               </tr>
             </tbody>
           </table>
@@ -362,7 +348,7 @@ sec7 = """
         <div class="callout-box callout-box--accent">
           <h3>💡 Pro Pitmaster Cooler Tip</h3>
           <p style="margin-bottom: 0;">
-            Freeze four water bottles solid before race day to line the bottom of your 14x14 soft cooler. They keep food and beer cold without soggy waterlogging and provide ice-cold drinking water as they thaw.
+            Freeze four water bottles solid before race day to line your soft cooler. They keep food and beer cold without soggy waterlogging and provide ice-cold drinking water as they thaw.
           </p>
         </div>
       </section>
@@ -373,31 +359,31 @@ sec8 = """
       <section style="margin-top: 2.5rem;">
         <h2>🍽️ Best Local Bristol BBQ Spots If You Don't Want to Cook</h2>
         <p>
-          Need a break from cooking? Northeast Tennessee boasts renowned smokehouses that provide incredible race weekend meals:
+          Need a break from cooking? Northeast Tennessee boasts renowned smokehouses for race weekend takeout:
         </p>
 
-        <div style="display: grid; gap: 1.1rem; margin: 1.25rem 0;">
-          <div style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1.1rem;">
-            <h3 style="color: var(--color-primary); margin-top: 0; margin-bottom: 0.25rem; font-size: 1.1rem;">🍖 Ridgewood Barbecue (Bluff City, TN)</h3>
-            <p style="font-size: 0.85rem; color: var(--color-text-light); margin-bottom: 0.35rem;">📍 900 Elizabethton Hwy, Bluff City &bull; 15 Mins South of Track</p>
+        <div style="display: grid; gap: 1rem; margin: 1.25rem 0;">
+          <div style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1rem;">
+            <h3 style="color: var(--color-primary); margin-top: 0; margin-bottom: 0.2rem; font-size: 1.05rem;">🍖 Ridgewood Barbecue (Bluff City, TN)</h3>
+            <p style="font-size: 0.85rem; color: var(--color-text-light); margin-bottom: 0.3rem;">📍 900 Elizabethton Hwy, Bluff City &bull; 15 Mins South of Track</p>
             <p style="margin-bottom: 0;">
-              Founded in 1948, Ridgewood is an iconic Appalachian barbecue institution. Famous for hickory-smoked pork sliced paper-thin, flash-grilled, and smothered in sweet-tangy sauce. Served with blue cheese dip and fresh-cut French fries, it is a must-visit for race fans. Call ahead for takeout!
+              Founded in 1948, Ridgewood is an iconic Appalachian barbecue institution. Famous for hickory-smoked pork sliced paper-thin, flash-grilled, and smothered in sweet-tangy sauce with blue cheese dip and fresh fries.
             </p>
           </div>
 
-          <div style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1.1rem;">
-            <h3 style="color: var(--color-primary); margin-top: 0; margin-bottom: 0.25rem; font-size: 1.1rem;">🎸 Delta Blues BBQ (Bristol, TN)</h3>
-            <p style="font-size: 0.85rem; color: var(--color-text-light); margin-bottom: 0.35rem;">📍 724 State Street, Bristol &bull; Historic Downtown</p>
+          <div style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1rem;">
+            <h3 style="color: var(--color-primary); margin-top: 0; margin-bottom: 0.2rem; font-size: 1.05rem;">🎸 Delta Blues BBQ (Bristol, TN)</h3>
+            <p style="font-size: 0.85rem; color: var(--color-text-light); margin-bottom: 0.3rem;">📍 724 State Street, Bristol &bull; Historic Downtown</p>
             <p style="margin-bottom: 0;">
               Located on historic State Street, Delta Blues serves slow-smoked Texas brisket, baby back ribs, pulled pork nachos, and local craft beers with live bluegrass and roots music.
             </p>
           </div>
 
-          <div style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1.1rem;">
-            <h3 style="color: var(--color-primary); margin-top: 0; margin-bottom: 0.25rem; font-size: 1.1rem;">🔥 Phil's Dream Pit (Kingsport / Bristol Corridor)</h3>
-            <p style="font-size: 0.85rem; color: var(--color-text-light); margin-bottom: 0.35rem;">📍 4141 Fort Henry Dr, Kingsport &bull; ~20 Mins Northwest</p>
+          <div style="background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1rem;">
+            <h3 style="color: var(--color-primary); margin-top: 0; margin-bottom: 0.2rem; font-size: 1.05rem;">🔥 Phil's Dream Pit (Kingsport / Bristol Corridor)</h3>
+            <p style="font-size: 0.85rem; color: var(--color-text-light); margin-bottom: 0.3rem;">📍 4141 Fort Henry Dr, Kingsport &bull; ~20 Mins Northwest</p>
             <p style="margin-bottom: 0;">
-              An authentic wood-fired pit smoking over local hardwoods. Phil's delivers fork-tender ribs, pulled pork, and vinegar slaw. Grabbing family packs on your drive into Sullivan County makes campsite meal planning easy.
+              An authentic wood-fired pit smoking over local hardwoods. Phil's delivers tender ribs, pulled pork, and vinegar slaw. Family packs make campsite meal planning easy.
             </p>
           </div>
         </div>
@@ -416,10 +402,10 @@ sec9 = """
       <section style="margin-top: 2.5rem;">
         <h2>🤝 Community Cookouts: Meeting Fellow Race Fans at the Campground</h2>
         <p>
-          Great barbecue is meant to be shared. At Bristol Hilltop Camping, tailgating is a communal tradition connecting fans from across North America. Multi-generational camping groups return each year, creating lasting friendships.
+          Great barbecue is meant to be shared. At Bristol Hilltop Camping, tailgating connects fans from across North America. Multi-generational camping groups return each year, creating lasting friendships.
         </p>
         <p>
-          Campground potlucks develop naturally across our ridge. On Friday and Saturday afternoons, neighbors align camp tables into an Appalachian feast: one group shares smoked wings, another offers Dutch oven cobbler, and others bring pimento cheese dip and beans.
+          Campground potlucks develop naturally across our ridge. On Friday and Saturday afternoons, neighbors align camp tables into an Appalachian feast: campers share smoked wings, cobbler, pimento cheese dip, and beans.
         </p>
         <div class="callout-box">
           <h3>🤝 Good Neighbor Tailgate Etiquette</h3>
@@ -438,7 +424,7 @@ sec10 = """
       <section style="margin-top: 3rem;" id="faq">
         <h2>❓ Frequently Asked Questions: Race Weekend BBQ &amp; Tailgating</h2>
         <p>
-          Here are answers to the six most common questions campers have about race weekend tailgating:
+          Here are answers to the six most common questions campers ask about race weekend tailgating:
         </p>
 
         <div class="faq__list" style="margin-top: 1.5rem;">
@@ -450,7 +436,7 @@ sec10 = """
             </button>
             <div class="faq__answer">
               <p>
-                Yes! Bristol Hilltop Camping welcomes smokers, charcoal kettles, pellet cookers, and propane flat-tops. Grills must sit on stable ground away from awnings and dry grass. Cool all embers before disposing in designated metal cans.
+                Yes! We welcome smokers, charcoal grills, pellet cookers, and propane griddles. Cookers must sit on level ground away from awnings. Cooled ashes must go into designated metal cans.
               </p>
             </div>
           </div>
@@ -462,7 +448,7 @@ sec10 = """
             </button>
             <div class="faq__answer">
               <p>
-                Each ticketed fan can carry one soft-sided cooler (up to 14x14x14 inches) and one clear bag (up to 14x14x14 inches). Pack ice packs, canned beer, soda, water, and homemade food like barbecue sandwiches. Glass, liquor, and hard coolers are prohibited.
+                Each fan can carry one soft cooler (max 14"x14"x14") and one clear bag. You may bring canned beer, water, and homemade food. Glass bottles, liquor, and hard coolers are strictly prohibited.
               </p>
             </div>
           </div>
@@ -474,7 +460,7 @@ sec10 = """
             </button>
             <div class="faq__answer">
               <p>
-                For briskets or pork butts needing 10 to 14 hours of cook time, start smoking Friday night at 10:00 PM or early Saturday morning at 4:00 AM. This lets meats finish by 1:00 PM, allowing 2 hours to rest before a 4:00 PM pre-race feast.
+                For briskets or pork butts needing 10 to 14 hours, start smoking Friday at 10:00 PM or Saturday at 4:00 AM. This finishes meat by 1:00 PM, giving 2 hours to rest before a 4:00 PM feast.
               </p>
             </div>
           </div>
@@ -486,7 +472,7 @@ sec10 = """
             </button>
             <div class="faq__answer">
               <p>
-                Use the two-cooler method: reserve one roto-molded cooler strictly for raw meat with block ice, and use a second cooler for drinks. Keep coolers shaded under your awning and limit lid openings.
+                Use two coolers: dedicate one roto-molded cooler with block ice strictly for raw meats, and a second cooler for drinks. Keep them shaded under your awning and minimize openings.
               </p>
             </div>
           </div>
@@ -498,7 +484,7 @@ sec10 = """
             </button>
             <div class="faq__answer">
               <p>
-                Cookouts happen organically! Campers set up tables in campsite lanes on Friday and Saturday afternoons, sharing extra ribs, smoked wings, and sides with neighbors before walking to the track together.
+                Cookouts happen naturally! Campers set up tables in campsite lanes on Friday and Saturday afternoons, sharing ribs, wings, and sides with neighbors before walking down to BMS.
               </p>
             </div>
           </div>
@@ -510,7 +496,7 @@ sec10 = """
             </button>
             <div class="faq__answer">
               <p>
-                Speedway day-lots cost up to $50, lack electric hookups, and trap fans in 2-to-3-hour exit gridlocks. Bristol Hilltop provides spacious lots, full hookups for pellet grills and TVs, hilltop views, and a simple 15-minute walk that bypasses traffic entirely.
+                Speedway day-lots cost up to $50, lack electric hookups, and create 3-hour traffic delays. Bristol Hilltop provides spacious hookup lots, mountain views, and an easy 15-minute walk.
               </p>
             </div>
           </div>
@@ -534,4 +520,4 @@ sec11 = """
 
 full_article = intro + sec1 + sec2 + m1 + sec3 + sec4 + sec5 + m2 + sec6 + sec7 + sec8 + m3 + sec9 + sec10 + sec11
 words = re.sub(r'<[^>]+>', ' ', full_article).split()
-print("Total words in calibrated article 2:", len(words))
+print("Total words in calibrated article 4:", len(words))
