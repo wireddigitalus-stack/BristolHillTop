@@ -66,14 +66,20 @@
 
   function getReferrer() {
     const ref = document.referrer;
-    if (!ref) return 'Direct';
-    if (ref.includes('google')) return 'Google';
+    if (!ref) return 'Direct / Typed URL';
+    if (ref.includes('google.com/maps') || ref.includes('google.com/local')) return 'Google Business';
+    if (ref.includes('google')) return 'Google Search';
+    if (ref.includes('bing')) return 'Bing Search';
+    if (ref.includes('yahoo')) return 'Yahoo Search';
+    if (ref.includes('duckduckgo')) return 'DuckDuckGo';
     if (ref.includes('facebook') || ref.includes('fb.')) return 'Facebook';
-    if (ref.includes('bing')) return 'Bing';
-    if (ref.includes('twitter') || ref.includes('t.co')) return 'Twitter/X';
     if (ref.includes('instagram')) return 'Instagram';
+    if (ref.includes('twitter') || ref.includes('t.co')) return 'Twitter / X';
     if (ref.includes('youtube')) return 'YouTube';
-    try { return new URL(ref).hostname; } catch(e) { return 'Other'; }
+    if (ref.includes('tiktok')) return 'TikTok';
+    if (ref.includes('nextdoor')) return 'Nextdoor';
+    if (ref.includes('yelp')) return 'Yelp';
+    try { return new URL(ref).hostname; } catch(e) { return 'Other Referral'; }
   }
 
   function getPagePath() {

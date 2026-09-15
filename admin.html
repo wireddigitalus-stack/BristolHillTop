@@ -578,11 +578,11 @@
         </div>
         <div class="chart-card">
           <div class="chart-card__title">📱 Device Breakdown</div>
-          <canvas id="chart-devices"></canvas>
+          <div id="devices-bars"></div>
         </div>
         <div class="chart-card">
           <div class="chart-card__title">🌐 Traffic Sources</div>
-          <canvas id="chart-referrers"></canvas>
+          <div id="referrers-bars"></div>
         </div>
       </div>
 
@@ -803,46 +803,74 @@
 
     function renderDevicesChart(d) {
       var devices = d.devices || {};
-      var labels = Object.keys(devices);
-      var colors = ['#0a84ff', '#ff9f0a', '#bf5af2'];
+      var sorted = Object.entries(devices).sort(function(a, b) { return b[1] - a[1]; });
+      var total = sorted.reduce(function(sum, e) { return sum + e[1]; }, 0) || 1;
+      var el = document.getElementById('devices-bars');
 
-      if (labels.length === 0) { labels = ['No data']; devices = { 'No data': 0 }; }
+      var icons = { 'Mobile': '📱', 'Desktop': '💻', 'Tablet': '📟' };
+      var colors = { 'Mobile': '#0a84ff', 'Desktop': '#30d158', 'Tablet': '#bf5af2' };
 
-      charts.devices = new Chart(document.getElementById('chart-devices'), {
-        type: 'doughnut',
-        data: {
-          labels: labels,
-          datasets: [{ data: labels.map(function(l) { return devices[l]; }), backgroundColor: colors, borderWidth: 0 }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } } },
-          cutout: '65%'
-        }
-      });
+      if (sorted.length === 0) {
+        el.innerHTML = '<div class="empty-state"><div class="empty-state__icon">📱</div><div class="empty-state__title">No device data yet</div></div>';
+        return;
+      }
+
+      el.innerHTML = sorted.map(function(e) {
+        var pct = Math.round((e[1] / total) * 100);
+        var icon = icons[e[0]] || '🖥️';
+        var color = colors[e[0]] || 'var(--accent)';
+        return '<div style="margin-bottom: 1rem;">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">' +
+            '<span style="font-weight:600;font-size:0.9rem;">' + icon + ' ' + e[0] + '</span>' +
+            '<span style="color:var(--text-secondary);font-size:0.8rem;">' + e[1] + ' <span style="color:' + color + ';font-weight:700;">(' + pct + '%)</span></span>' +
+          '</div>' +
+          '<div style="width:100%;height:8px;background:var(--border);border-radius:4px;overflow:hidden;">' +
+            '<div style="width:' + pct + '%;height:100%;background:' + color + ';border-radius:4px;transition:width 0.6s ease;"></div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
     }
 
     function renderReferrersChart(d) {
       var refs = d.referrers || {};
-      var labels = Object.keys(refs);
-      var colors = ['#30d158', '#ff453a', '#ffd60a', '#64d2ff', '#ff375f', '#bf5af2', '#ff9f0a'];
+      var sorted = Object.entries(refs).sort(function(a, b) { return b[1] - a[1]; });
+      var total = sorted.reduce(function(sum, e) { return sum + e[1]; }, 0) || 1;
+      var el = document.getElementById('referrers-bars');
 
-      if (labels.length === 0) { labels = ['No data']; refs = { 'No data': 0 }; }
+      var icons = {
+        'Google Search': '🔍', 'Google Business': '📍', 'Bing Search': '🔎',
+        'Yahoo Search': '🔎', 'DuckDuckGo': '🦆', 'Facebook': '👤',
+        'Instagram': '📸', 'Twitter / X': '🐦', 'YouTube': '▶️',
+        'TikTok': '🎵', 'Nextdoor': '🏘️', 'Yelp': '⭐',
+        'Direct / Typed URL': '🔗', 'Other Referral': '🌐'
+      };
+      var colors = {
+        'Google Search': '#30d158', 'Google Business': '#ffd60a', 'Bing Search': '#64d2ff',
+        'Yahoo Search': '#bf5af2', 'DuckDuckGo': '#ff9f0a', 'Facebook': '#0a84ff',
+        'Instagram': '#ff375f', 'Twitter / X': '#64d2ff', 'YouTube': '#ff453a',
+        'TikTok': '#ff375f', 'Nextdoor': '#30d158', 'Yelp': '#ff453a',
+        'Direct / Typed URL': '#8e8e93', 'Other Referral': '#8e8e93'
+      };
 
-      charts.referrers = new Chart(document.getElementById('chart-referrers'), {
-        type: 'doughnut',
-        data: {
-          labels: labels,
-          datasets: [{ data: labels.map(function(l) { return refs[l]; }), backgroundColor: colors, borderWidth: 0 }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } } },
-          cutout: '65%'
-        }
-      });
+      if (sorted.length === 0) {
+        el.innerHTML = '<div class="empty-state"><div class="empty-state__icon">🌐</div><div class="empty-state__title">No traffic data yet</div></div>';
+        return;
+      }
+
+      el.innerHTML = sorted.map(function(e) {
+        var pct = Math.round((e[1] / total) * 100);
+        var icon = icons[e[0]] || '🌐';
+        var color = colors[e[0]] || 'var(--accent)';
+        return '<div style="margin-bottom: 1rem;">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">' +
+            '<span style="font-weight:600;font-size:0.9rem;">' + icon + ' ' + e[0] + '</span>' +
+            '<span style="color:var(--text-secondary);font-size:0.8rem;">' + e[1] + ' <span style="color:' + color + ';font-weight:700;">(' + pct + '%)</span></span>' +
+          '</div>' +
+          '<div style="width:100%;height:8px;background:var(--border);border-radius:4px;overflow:hidden;">' +
+            '<div style="width:' + pct + '%;height:100%;background:' + color + ';border-radius:4px;transition:width 0.6s ease;"></div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
     }
 
     function renderHourlyChart(d) {
