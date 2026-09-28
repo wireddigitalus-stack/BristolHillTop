@@ -1069,6 +1069,7 @@
             '<button class="dash-btn" onclick="updateLeadStatus(' + l.id + ',\'contacted\')">✅ Contacted</button>' +
             '<button class="dash-btn" onclick="updateLeadStatus(' + l.id + ',\'closed\')">🏁 Closed</button>' +
             '<a href="tel:' + l.phone + '" class="dash-btn" style="text-decoration:none;color:var(--green);border-color:var(--green);">📞 Call</a>' +
+            '<button class="dash-btn danger" onclick="deleteLead(' + l.id + ',\'' + l.name.replace(/'/g, '') + '\')">🗑️</button>' +
           '</div>' +
         '</div>';
       }).join('');
@@ -1076,6 +1077,19 @@
 
     function updateLeadStatus(id, status) {
       sbUpdate('leads', id, { status: status }).then(function() {
+        renderDashboard();
+      });
+    }
+
+    function deleteLead(id, name) {
+      if (!confirm('Delete lead "' + name + '"?\n\nThis cannot be undone.')) return;
+      fetch(SB_URL + '/rest/v1/leads?id=eq.' + id, {
+        method: 'DELETE',
+        headers: {
+          'apikey': SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY
+        }
+      }).then(function() {
         renderDashboard();
       });
     }
