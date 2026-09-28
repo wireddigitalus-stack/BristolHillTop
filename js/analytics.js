@@ -119,6 +119,47 @@
       return false;
     }
 
+    // ── ANTI-SPAM CHECKS ──
+
+    // 1. Honeypot — if the hidden field is filled, it's a bot
+    var honeypot = form.querySelector('[name="website_url"]');
+    if (honeypot && honeypot.value) {
+      form.innerHTML = '<div style="text-align:center;padding:2rem;"><p style="font-size:1.5rem;">✅ Thank You!</p><p>We\'ll be in touch soon.</p></div>';
+      return false; // silently reject — don't tell bots they failed
+    }
+
+    // 2. Time check — form must be on screen 3+ seconds (bots submit instantly)
+    var loadedAt = parseInt(form.dataset.loaded || '0');
+    if (loadedAt && (Date.now() - loadedAt) < 3000) {
+      form.innerHTML = '<div style="text-align:center;padding:2rem;"><p style="font-size:1.5rem;">✅ Thank You!</p><p>We\'ll be in touch soon.</p></div>';
+      return false;
+    }
+
+    // 3. Name must contain at least one vowel (catches "Tcgia Glzozc", "Wyprptd Psebgmzt")
+    if (!/[aeiouAEIOU]/.test(name)) {
+      alert('Please enter a valid name.');
+      return false;
+    }
+
+    // 4. Name must be at least 3 chars, max 60, and have a space (first + last)
+    if (name.length < 3 || name.length > 60) {
+      alert('Please enter your full name.');
+      return false;
+    }
+
+    // 5. Phone must be mostly digits (at least 7 digits)
+    var digits = phone.replace(/\D/g, '');
+    if (digits.length < 7 || digits.length > 15) {
+      alert('Please enter a valid phone number.');
+      return false;
+    }
+
+    // 6. Block suspicious email patterns (random dots/numbers before @gmail)
+    if (email && /^[a-z](\.[a-z]){3,}.*\d+@gmail/i.test(email)) {
+      form.innerHTML = '<div style="text-align:center;padding:2rem;"><p style="font-size:1.5rem;">✅ Thank You!</p><p>We\'ll be in touch soon.</p></div>';
+      return false;
+    }
+
     // POST lead to Supabase
     fetch(SUPABASE_URL + '/rest/v1/leads', {
       method: 'POST',
